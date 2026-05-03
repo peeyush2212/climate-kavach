@@ -1,18 +1,60 @@
+"use client";
+
+import * as React from "react";
 import Link from "next/link";
-import { Activity, BarChart3, Database, Gauge, Sparkles } from "lucide-react";
+import { usePathname } from "next/navigation";
+import {
+  Activity,
+  BarChart3,
+  CloudRain,
+  Database,
+  Gauge,
+  Menu,
+  RadioTower,
+  ReceiptText,
+  Sparkles,
+  X,
+} from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/", label: "Simulation", icon: Gauge },
   { href: "/explorer", label: "Explorer", icon: Activity },
   { href: "/data-model", label: "Data & Model", icon: Database },
-  { href: "/premium", label: "Premium", icon: BarChart3 },
+  { href: "/carbon-kavach", label: "Carbon Kavach", icon: ReceiptText },
+  { href: "/flood-kavach", label: "Flood Kavach", icon: CloudRain },
+  { href: "/sensor-kavach", label: "Sensors", icon: RadioTower },
+  { href: "/data-kavach", label: "Data Packs", icon: Database },
+  { href: "/pricing", label: "Pricing", icon: BarChart3 },
+  { href: "/premium", label: "Premium", icon: Sparkles },
+  { href: "/contact", label: "Contact", icon: Activity },
 ];
 
 export function SiteHeader() {
+  const pathname = usePathname();
+  const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  function isActive(href: string) {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
+  }
+
+  const navLinkClass = (href: string) =>
+    cn(
+      "inline-flex h-10 shrink-0 items-center gap-2 rounded-lg border px-3 text-sm font-bold transition-colors",
+      isActive(href)
+        ? "border-cyan-300/35 bg-cyan-300/12 text-cyan-100"
+        : "border-transparent text-slate-400 hover:border-cyan-300/30 hover:bg-cyan-300/10 hover:text-cyan-100"
+    );
+
   return (
     <header className="sticky top-0 z-40 border-b border-cyan-300/15 bg-slate-950/75 backdrop-blur-2xl">
-      <div className="mx-auto flex min-h-16 max-w-[1600px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-16 max-w-[1600px] items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="group flex items-center gap-3">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-300/35 bg-cyan-300/10 text-cyan-200 shadow-[0_0_35px_rgba(34,211,238,.30)] transition-transform group-hover:scale-105">
             <Sparkles className="h-5 w-5" />
@@ -23,16 +65,40 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="order-3 flex w-full items-center gap-1 overflow-x-auto text-sm sm:order-none sm:w-auto">
+        <nav className="hidden max-w-[850px] items-center gap-1 overflow-x-auto xl:flex" aria-label="Primary navigation">
           {navItems.map(({ href, label, icon: Icon }) => (
-            <Link key={href} href={href} className="inline-flex h-10 shrink-0 items-center gap-2 rounded-lg border border-transparent px-3 font-bold text-slate-400 transition-colors hover:border-cyan-300/30 hover:bg-cyan-300/10 hover:text-cyan-100">
+            <Link key={href} href={href} className={navLinkClass(href)}>
               <Icon className="h-4 w-4" />{label}
             </Link>
           ))}
         </nav>
 
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-300/20 bg-slate-950/55 text-cyan-100 xl:hidden"
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
+
+      {open && (
+        <nav className="border-t border-cyan-300/10 bg-slate-950/95 px-4 py-3 xl:hidden" aria-label="Mobile navigation">
+          <div className="mx-auto grid max-w-[1600px] gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {navItems.map(({ href, label, icon: Icon }) => (
+              <Link key={href} href={href} className={navLinkClass(href)}>
+                <Icon className="h-4 w-4" />
+                {label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

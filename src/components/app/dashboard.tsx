@@ -13,6 +13,7 @@ import { ScenarioControls } from "@/components/scenario-controls";
 import { TemperaturePanel } from "@/components/temperature-panel";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ModuleEntryCards } from "@/components/marketing/module-entry-cards";
 import { useClimateKavachStore } from "@/lib/store";
 
 export function Dashboard() {
@@ -56,6 +57,8 @@ export function Dashboard() {
           </div>
         </div>
       </section>
+
+      <ModuleEntryCards />
 
       <div className="grid gap-5 xl:grid-cols-[1.1fr_1fr_310px]">
         <Card className="border-cyan-300/20 bg-slate-950/60">
