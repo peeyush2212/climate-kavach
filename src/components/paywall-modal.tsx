@@ -5,7 +5,7 @@ import { Copy, ExternalLink, Lock, ShieldCheck, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 
 const UPI_ID = "peeyush2212@okhdfcbank";
 const AMOUNT_INR = 500;
@@ -16,15 +16,15 @@ function buildUpiUri() {
     pn: "Peeyush Jha",
     am: String(AMOUNT_INR),
     cu: "INR",
-    tn: "India-ROADS Premium Data Pack",
+    tn: "Climate Kavach Premium Data Pack",
   });
   return `upi://pay?${params.toString()}`;
 }
 
 export function PaywallModal() {
-  const open = useIndiaRoadsStore((s) => s.paywallOpen);
-  const close = useIndiaRoadsStore((s) => s.closePaywall);
-  const refreshPremiumStatus = useIndiaRoadsStore((s) => s.refreshPremiumStatus);
+  const open = useClimateKavachStore((s) => s.paywallOpen);
+  const close = useClimateKavachStore((s) => s.closePaywall);
+  const refreshPremiumStatus = useClimateKavachStore((s) => s.refreshPremiumStatus);
   const [status, setStatus] = React.useState<string>("");
   const [loading, setLoading] = React.useState(false);
   const upiUri = React.useMemo(() => buildUpiUri(), []);
@@ -70,7 +70,7 @@ export function PaywallModal() {
             <Lock className="h-5 w-5 text-cyan-300" /> Unlock Premium Data Pack
           </DialogTitle>
           <DialogDescription className="text-slate-400">
-            ₹{AMOUNT_INR} one-time access. Sample data stays free; premium downloads are locked behind server-side verification.
+            Rs {AMOUNT_INR} one-time access. Sample data stays free; premium downloads are locked behind server-side verification.
           </DialogDescription>
         </DialogHeader>
 
@@ -84,7 +84,7 @@ export function PaywallModal() {
             <div className="grid gap-5 md:grid-cols-[360px_1fr]">
               <div className="rounded-2xl border border-cyan-300/20 bg-slate-900/55 p-4">
                 <div className="text-sm font-black uppercase tracking-[0.18em] text-cyan-200">Scan & Pay</div>
-                <div className="mt-2 text-xs font-semibold text-slate-400">Pay ₹{AMOUNT_INR} to {UPI_ID}</div>
+                <div className="mt-2 text-xs font-semibold text-slate-400">Pay Rs {AMOUNT_INR} to {UPI_ID}</div>
                 <div className="mt-4 flex items-center justify-center overflow-hidden rounded-2xl bg-white p-2">
                   <img src="/payments/gpay_qr.png" alt="GPay QR for peeyush2212@okhdfcbank" className="max-h-[430px] w-full rounded-xl object-contain" />
                 </div>
@@ -114,12 +114,12 @@ export function PaywallModal() {
 
           <TabsContent value="stripe">
             <div className="rounded-2xl border border-cyan-300/20 bg-slate-900/55 p-5">
-              <div className="text-lg font-black text-cyan-50">Stripe Checkout — ₹{AMOUNT_INR}</div>
+              <div className="text-lg font-black text-cyan-50">Stripe Checkout - Rs {AMOUNT_INR}</div>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
                 This creates a Stripe Checkout Session. On success, the app verifies the session server-side and mints a secure premium cookie, which unlocks the protected download endpoint.
               </p>
               <div className="mt-5 flex flex-wrap items-center gap-3">
-                <Button onClick={startStripeCheckout} disabled={loading}>{loading ? "Creating checkout…" : `Checkout ₹${AMOUNT_INR}`}</Button>
+                <Button onClick={startStripeCheckout} disabled={loading}>{loading ? "Creating checkout..." : `Checkout Rs ${AMOUNT_INR}`}</Button>
                 <a href="/api/download/sample"><Button variant="outline"><ExternalLink className="h-4 w-4" /> Download sample first</Button></a>
               </div>
               <div className="mt-4 rounded-xl border border-cyan-300/15 bg-slate-950/60 p-3 text-xs text-slate-500">

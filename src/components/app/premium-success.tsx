@@ -5,14 +5,14 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 
 export function PremiumSuccess() {
   const params = useSearchParams();
   const sessionId = params.get("session_id");
-  const refreshPremiumStatus = useIndiaRoadsStore((s) => s.refreshPremiumStatus);
+  const refreshPremiumStatus = useClimateKavachStore((s) => s.refreshPremiumStatus);
   const [state, setState] = React.useState<"loading" | "ok" | "error">("loading");
-  const [message, setMessage] = React.useState("Verifying Stripe session…");
+  const [message, setMessage] = React.useState("Verifying Stripe session...");
 
   React.useEffect(() => {
     async function verify() {

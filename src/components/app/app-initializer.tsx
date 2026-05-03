@@ -2,15 +2,15 @@
 
 import * as React from "react";
 import type { ModelInputs } from "@/lib/types";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 import { useSearchParams } from "next/navigation";
 import { decodeScenario } from "@/lib/scenarioCodec";
 
 export function AppInitializer({ inputs }: { inputs: ModelInputs }) {
-  const currentInputs = useIndiaRoadsStore((s) => s.inputs);
-  const init = useIndiaRoadsStore((s) => s.init);
-  const hydrateClientState = useIndiaRoadsStore((s) => s.hydrateClientState);
-  const setScenario = useIndiaRoadsStore((s) => s.setScenario);
+  const currentInputs = useClimateKavachStore((s) => s.inputs);
+  const init = useClimateKavachStore((s) => s.init);
+  const hydrateClientState = useClimateKavachStore((s) => s.hydrateClientState);
+  const setScenario = useClimateKavachStore((s) => s.setScenario);
   const searchParams = useSearchParams();
   const appliedRef = React.useRef(false);
 

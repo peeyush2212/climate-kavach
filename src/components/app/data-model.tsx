@@ -1,18 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatNumber, downloadText } from "@/lib/utils";
 
 export function DataModel() {
-  const inputs = useIndiaRoadsStore((s) => s.inputs);
-  const premium = useIndiaRoadsStore((s) => s.premiumUnlocked);
-  const openPaywall = useIndiaRoadsStore((s) => s.openPaywall);
+  const inputs = useClimateKavachStore((s) => s.inputs);
+  const premium = useClimateKavachStore((s) => s.premiumUnlocked);
+  const openPaywall = useClimateKavachStore((s) => s.openPaywall);
 
-  if (!inputs) return <div className="text-sm text-muted-foreground">Loading…</div>;
+  if (!inputs) return <div className="text-sm text-muted-foreground">Loading...</div>;
 
   const b = inputs.indiaBaseline;
   const p = inputs.worldInsights.percentiles;
@@ -44,12 +44,12 @@ export function DataModel() {
           <CardContent className="space-y-3 text-sm">
             <div className="grid grid-cols-2 gap-2">
               <div className="rounded-md border border-border p-3">
-                <div className="text-xs text-muted-foreground">CO₂ (total)</div>
+                <div className="text-xs text-muted-foreground">CO2 (total)</div>
                 <div className="text-lg font-semibold tabular-nums">{formatNumber(b.co2_mt, { maximumFractionDigits: 0 })} Mt</div>
                 <div className="text-xs text-muted-foreground">Percentile: {p.co2_total_mt?.toFixed?.(1) ?? "–"}</div>
               </div>
               <div className="rounded-md border border-border p-3">
-                <div className="text-xs text-muted-foreground">CO₂ per capita</div>
+                <div className="text-xs text-muted-foreground">CO2 per capita</div>
                 <div className="text-lg font-semibold tabular-nums">{formatNumber(co2Pc, { maximumFractionDigits: 2 })} t</div>
                 <div className="text-xs text-muted-foreground">Percentile: {p.co2_pc_t?.toFixed?.(1) ?? "–"}</div>
               </div>
@@ -81,7 +81,7 @@ export function DataModel() {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Peers (large population) — 2021</CardTitle>
+            <CardTitle className="text-sm">Peers (large population) - 2021</CardTitle>
           </CardHeader>
           <CardContent className="overflow-auto">
             <table className="w-full text-sm">
@@ -89,7 +89,7 @@ export function DataModel() {
                 <tr>
                   <th className="py-2">Country</th>
                   <th className="py-2">Pop (M)</th>
-                  <th className="py-2">CO₂/cap</th>
+                  <th className="py-2">CO2/cap</th>
                   <th className="py-2">GDPpc</th>
                   <th className="py-2">EI</th>
                   <th className="py-2">RE%</th>
@@ -119,7 +119,7 @@ export function DataModel() {
           </CardHeader>
           <CardContent>
             <div className="text-sm text-muted-foreground">
-              These coefficients are estimated from a global country‑year panel and then applied to India as proxy
+              These coefficients are estimated from a global country-year panel and then applied to India as proxy
               elasticities.
             </div>
             <div className="mt-4 overflow-auto">
@@ -156,8 +156,8 @@ export function DataModel() {
               <Badge variant="outline">MAE: {pm.mae?.toFixed?.(3) ?? "–"}</Badge>
             </div>
             <div className="text-sm text-muted-foreground">
-              PM2.5 here is a *proxy* driven by GDPpc, CO₂/cap, renewables share, clean cooking access and
-              urbanization — then reduced by the Air Controls lever.
+              PM2.5 here is a *proxy* driven by GDPpc, CO2/cap, renewables share, clean cooking access and
+              urbanization - then reduced by the Air Controls lever.
             </div>
 
             <div className="rounded-md border border-border bg-background p-3 text-xs text-muted-foreground">

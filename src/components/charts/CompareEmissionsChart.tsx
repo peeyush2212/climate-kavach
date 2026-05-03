@@ -5,14 +5,14 @@ import type { EChartsOption } from "echarts";
 import { EChart } from "@/components/charts/EChart";
 import { axisTooltip, baseChartOption, chartColors } from "@/components/charts/chartStyle";
 import { simulate } from "@/lib/simulator";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 
 export function CompareEmissionsChart() {
-  const inputs = useIndiaRoadsStore((s) => s.inputs);
-  const baselineSim = useIndiaRoadsStore((s) => s.baselineSim);
-  const sim = useIndiaRoadsStore((s) => s.sim);
-  const saved = useIndiaRoadsStore((s) => s.saved);
-  const compareIds = useIndiaRoadsStore((s) => s.compareIds);
+  const inputs = useClimateKavachStore((s) => s.inputs);
+  const baselineSim = useClimateKavachStore((s) => s.baselineSim);
+  const sim = useClimateKavachStore((s) => s.sim);
+  const saved = useClimateKavachStore((s) => s.saved);
+  const compareIds = useClimateKavachStore((s) => s.compareIds);
 
   const option = React.useMemo<EChartsOption>(() => {
     if (!inputs || !baselineSim || !sim) return {};
@@ -56,7 +56,7 @@ export function CompareEmissionsChart() {
 
     return {
       ...baseOption,
-      tooltip: axisTooltip("MtCO₂e/yr"),
+      tooltip: axisTooltip("MtCO2e/yr"),
       grid: { ...(baseOption.grid as object), top: 40, bottom: 26 },
       xAxis: { ...(baseOption.xAxis as object), type: "category", data: years, boundaryGap: false },
       yAxis: { ...(baseOption.yAxis as object), type: "value" },

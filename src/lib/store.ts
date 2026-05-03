@@ -57,7 +57,7 @@ function uid() {
   return Math.random().toString(36).slice(2, 10) + "_" + Date.now().toString(36);
 }
 
-const LS_KEY = "india_roads_saved_scenarios_v1";
+const LS_KEY = "climate_kavach_saved_scenarios_v1";
 const initialInputs = modelInputs as unknown as ModelInputs;
 const initialBaselineScenario = defaultScenario(initialInputs);
 const initialBaselineSim = simulate(initialInputs, initialBaselineScenario);
@@ -84,7 +84,7 @@ function persistSaved(saved: SavedScenario[]) {
   }
 }
 
-export const useIndiaRoadsStore = create<State>((set, get) => ({
+export const useClimateKavachStore = create<State>((set, get) => ({
   inputs: initialInputs,
   baselineScenario: initialBaselineScenario,
   scenario: initialBaselineScenario,

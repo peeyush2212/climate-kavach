@@ -4,12 +4,12 @@ import * as React from "react";
 import { EChart } from "@/components/charts/EChart";
 import { baseChartOption, chartColors, formatChartNumber } from "@/components/charts/chartStyle";
 import { makeWaterfallContributions } from "@/lib/simulator";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 import type { EChartsOption } from "echarts";
 
 export function WaterfallChart() {
-  const baselineSim = useIndiaRoadsStore((s) => s.baselineSim);
-  const sim = useIndiaRoadsStore((s) => s.sim);
+  const baselineSim = useClimateKavachStore((s) => s.baselineSim);
+  const sim = useClimateKavachStore((s) => s.sim);
 
   const option = React.useMemo<EChartsOption>(() => {
     if (!baselineSim || !sim) return {};
@@ -39,7 +39,7 @@ export function WaterfallChart() {
       ...baseOption,
       title: {
         text: "2050 net emissions change",
-        subtext: "Contribution versus baseline, MtCO₂e/yr",
+        subtext: "Contribution versus baseline, MtCO2e/yr",
         left: 0,
         top: 0,
         textStyle: { color: chartColors.text, fontSize: 13, fontWeight: 600 },
@@ -56,11 +56,11 @@ export function WaterfallChart() {
         formatter: (params: any) => {
           const point = Array.isArray(params) ? params[1] : params;
           const idx = point?.dataIndex ?? 0;
-          if (idx === 0) return `Baseline<br/>${formatChartNumber(wf.baselineNet)} MtCO₂e/yr`;
-          if (idx === labels.length - 1) return `Current<br/>${formatChartNumber(wf.currentNet)} MtCO₂e/yr`;
+          if (idx === 0) return `Baseline<br/>${formatChartNumber(wf.baselineNet)} MtCO2e/yr`;
+          if (idx === labels.length - 1) return `Current<br/>${formatChartNumber(wf.currentNet)} MtCO2e/yr`;
           const delta = deltas[idx - 1];
           const sign = delta >= 0 ? "+" : "";
-          return `${labels[idx]}<br/>${sign}${formatChartNumber(delta)} MtCO₂e/yr`;
+          return `${labels[idx]}<br/>${sign}${formatChartNumber(delta)} MtCO2e/yr`;
         },
       },
       grid: { ...(baseOption.grid as object), top: 58, bottom: 82 },

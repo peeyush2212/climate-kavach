@@ -3,7 +3,7 @@
 import * as React from "react";
 import { EChart } from "@/components/charts/EChart";
 import { axisTooltip, baseChartOption, chartColors, dataZoom } from "@/components/charts/chartStyle";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 import type { EChartsOption } from "echarts";
 
 export function IndicatorChart({
@@ -17,9 +17,9 @@ export function IndicatorChart({
   yLabel: string;
   formatter?: (v: number) => string;
 }) {
-  const baselineSim = useIndiaRoadsStore((s) => s.baselineSim);
-  const sim = useIndiaRoadsStore((s) => s.sim);
-  const zoom = useIndiaRoadsStore((s) => s.zoom);
+  const baselineSim = useClimateKavachStore((s) => s.baselineSim);
+  const sim = useClimateKavachStore((s) => s.sim);
+  const zoom = useClimateKavachStore((s) => s.zoom);
 
   const option = React.useMemo<EChartsOption>(() => {
     if (!baselineSim || !sim) return {};

@@ -1,8 +1,8 @@
 {
-  "name": "india-roads",
+  "name": "climate-kavach",
   "version": "1.0.0",
   "private": true,
-  "description": "India-ROADS (En-ROADS-style) India emissions simulator - Vercel-ready",
+  "description": "Climate Kavach (En-ROADS-style) India emissions simulator - Vercel-ready",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

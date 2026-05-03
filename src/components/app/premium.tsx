@@ -5,12 +5,12 @@ import { useSearchParams } from "next/navigation";
 import { Database, Download, Lock, ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 
 export function PremiumPage() {
-  const premium = useIndiaRoadsStore((s) => s.premiumUnlocked);
-  const openPaywall = useIndiaRoadsStore((s) => s.openPaywall);
-  const refreshPremiumStatus = useIndiaRoadsStore((s) => s.refreshPremiumStatus);
+  const premium = useClimateKavachStore((s) => s.premiumUnlocked);
+  const openPaywall = useClimateKavachStore((s) => s.openPaywall);
+  const refreshPremiumStatus = useClimateKavachStore((s) => s.refreshPremiumStatus);
   const searchParams = useSearchParams();
   const canceled = searchParams.get("canceled") === "1";
 
@@ -41,9 +41,9 @@ export function PremiumPage() {
             <Badge variant="success">Free</Badge>
           </div>
           <ul className="mt-4 space-y-2 text-sm font-semibold text-slate-300">
-            <li>• Sample scenario CSV</li>
-            <li>• Public model notes</li>
-            <li>• Slider map excerpt</li>
+            <li>- Sample scenario CSV</li>
+            <li>- Public model notes</li>
+            <li>- Slider map excerpt</li>
           </ul>
           <a href="/api/download/sample" className="mt-5 inline-flex"><Button variant="outline"><Download className="h-4 w-4" /> Download sample</Button></a>
         </div>
@@ -54,7 +54,7 @@ export function PremiumPage() {
               <div className="flex items-center gap-2 text-lg font-black text-cyan-50"><Lock className="h-5 w-5 text-fuchsia-300" /> Premium Data Pack</div>
               <p className="mt-2 text-sm leading-6 text-slate-400">Full scenario templates, additional peer benchmarks, and premium coefficient notes.</p>
             </div>
-            <Badge variant={premium ? "success" : "warn"}>{premium ? "Unlocked" : "₹500 locked"}</Badge>
+            <Badge variant={premium ? "success" : "warn"}>{premium ? "Unlocked" : "Rs 500 locked"}</Badge>
           </div>
           <ul className="mt-4 space-y-2 text-sm font-semibold text-slate-300">
             <li className="flex gap-2"><ShieldCheck className="h-4 w-4 text-emerald-300" /> Full 2021–2100 scenario output templates</li>

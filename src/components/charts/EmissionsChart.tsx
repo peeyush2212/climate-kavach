@@ -4,13 +4,13 @@ import * as React from "react";
 import type { EChartsOption } from "echarts";
 import { EChart } from "@/components/charts/EChart";
 import { axisTooltip, baseChartOption, chartColors, dataZoom } from "@/components/charts/chartStyle";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 
 export function EmissionsChart() {
-  const baselineSim = useIndiaRoadsStore((s) => s.baselineSim);
-  const sim = useIndiaRoadsStore((s) => s.sim);
-  const zoom = useIndiaRoadsStore((s) => s.zoom);
-  const setZoom = useIndiaRoadsStore((s) => s.setZoom);
+  const baselineSim = useClimateKavachStore((s) => s.baselineSim);
+  const sim = useClimateKavachStore((s) => s.sim);
+  const zoom = useClimateKavachStore((s) => s.zoom);
+  const setZoom = useClimateKavachStore((s) => s.setZoom);
 
   const option = React.useMemo<EChartsOption>(() => {
     if (!baselineSim || !sim) return {};
@@ -25,11 +25,11 @@ export function EmissionsChart() {
     return {
       ...baseOption,
       title: { text: "Greenhouse Gas Net Emissions", left: 0, top: 0, textStyle: { color: chartColors.text, fontSize: 14, fontWeight: 800 } },
-      tooltip: axisTooltip("GtCO₂e/yr", 2),
+      tooltip: axisTooltip("GtCO2e/yr", 2),
       legend: { ...(baseOption.legend as object), top: 28, data: ["Baseline", "Current Scenario"] },
       grid: { ...(baseOption.grid as object), top: 74, bottom: 48 },
       xAxis: { ...(baseOption.xAxis as object), type: "category", data: years, boundaryGap: false },
-      yAxis: { ...(baseOption.yAxis as object), type: "value", name: "Gt CO₂ equivalent/year" },
+      yAxis: { ...(baseOption.yAxis as object), type: "value", name: "Gt CO2 equivalent/year" },
       dataZoom: dataZoom(years[startIndex], years[endIndex]),
       series: [
         { name: "Zero", type: "line", data: zero, showSymbol: false, lineStyle: { color: "rgba(226,232,240,.4)", width: 1 }, tooltip: { show: false } },

@@ -15,13 +15,13 @@ export async function GET(req: Request) {
   if (!verifyPremiumToken(token)) {
     return NextResponse.json({ error: "Premium download locked. Complete Stripe checkout first." }, { status: 402 });
   }
-  const file = path.join(process.cwd(), "data", "premium", "india_roads_premium_data_pack.zip");
+  const file = path.join(process.cwd(), "data", "premium", "climate_kavach_premium_data_pack.zip");
   const buf = fs.readFileSync(file);
   return new NextResponse(buf, {
     status: 200,
     headers: {
       "Content-Type": "application/zip",
-      "Content-Disposition": "attachment; filename=india_roads_premium_data_pack.zip",
+      "Content-Disposition": "attachment; filename=climate_kavach_premium_data_pack.zip",
     },
   });
 }

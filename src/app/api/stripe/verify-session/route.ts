@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     }
     const stripe = new Stripe(secret, { apiVersion: "2023-10-16" });
     const session = await stripe.checkout.sessions.retrieve(sessionId);
-    const paid = session.payment_status === "paid" && session.metadata?.product === "india-roads-premium";
+    const paid = session.payment_status === "paid" && session.metadata?.product === "climate-kavach-premium";
     if (!paid) {
       return NextResponse.json({ error: "Stripe session is not paid or not a premium session." }, { status: 402 });
     }

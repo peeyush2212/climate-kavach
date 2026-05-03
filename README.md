@@ -1,16 +1,16 @@
-# India‑ROADS X — Futuristic En‑ROADS style India simulator
+# Climate Kavach - Futuristic En-ROADS style India simulator
 
-A Vercel-ready standalone website for an India-tailored climate / emissions simulator. The dashboard uses a futuristic dark sci‑fi theme while keeping the En‑ROADS layout: top energy chart, net greenhouse-gas emissions chart, a large 2100 temperature signal, grouped sliders, scenario tools, explorer views and premium downloads.
+A Vercel-ready standalone website for an India-tailored climate / emissions simulator. The dashboard uses a futuristic dark sci-fi theme while keeping the En-ROADS layout: top energy chart, net greenhouse-gas emissions chart, a large 2100 temperature signal, grouped sliders, scenario tools, explorer views and premium downloads.
 
 ## Included features
 
 - **Next.js App Router + TypeScript + Tailwind**
 - **Apache ECharts** interactive charts: stacked primary energy, net GHG emissions, indicator time-series, waterfall, Monte Carlo explorer and scenario comparison.
-- **All En‑ROADS-style slider groups from the main En‑ROADS layout**:
-  - Energy Supply: Coal, Oil, Natural Gas, Renewables, Bioenergy, Nuclear, New Zero‑Carbon, Carbon Price
+- **All En-ROADS-style slider groups from the main En-ROADS layout**:
+  - Energy Supply: Coal, Oil, Natural Gas, Renewables, Bioenergy, Nuclear, New Zero-Carbon, Carbon Price
   - Transport: Energy Efficiency, Electrification
   - Buildings & Industry: Energy Efficiency, Electrification
-  - Carbon Dioxide Removal: Nature‑Based, Technological
+  - Carbon Dioxide Removal: Nature-Based, Technological
   - Other GHG: Agricultural Emissions, Waste & Leakage
   - Land Use: Deforestation
   - Growth: Population, Economic Growth
@@ -21,7 +21,7 @@ A Vercel-ready standalone website for an India-tailored climate / emissions simu
   - Clean cooking access
   - Urbanization
   - Manufacturing share of GDP
-  - Clean‑tech R&D
+  - Clean-tech R&D
   - Forest area
   - Air pollution controls / PM2.5 co-benefits
 - **Premium data flow**:
@@ -71,13 +71,13 @@ If `STRIPE_SECRET_KEY` is missing, the Stripe button stays visible but returns a
 
 Premium data is **not** inside `/public`.
 
-- Free sample pack: `data/sample/india_roads_sample_data_pack.zip`
-- Premium pack: `data/premium/india_roads_premium_data_pack.zip`
+- Free sample pack: `data/sample/climate_kavach_sample_data_pack.zip`
+- Premium pack: `data/premium/climate_kavach_premium_data_pack.zip`
 
 Downloads are served through API routes:
 
-- `/api/download/sample` — open to everyone
-- `/api/download/premium` — requires a valid signed httpOnly cookie
+- `/api/download/sample` - open to everyone
+- `/api/download/premium` - requires a valid signed httpOnly cookie
 
 Stripe success redirects to:
 
@@ -99,10 +99,10 @@ The simulator is an explainable emulator, not an official government forecast. I
 - Kaya/IPAT decomposition
 - Energy intensity proxy from uploaded India data
 - Renewables proxy from uploaded World Bank-style data
-- Fuel-mix emissions factors calibrated to India’s 2021 CO₂ baseline
-- Conservative non‑CO₂ GHG proxies
+- Fuel-mix emissions factors calibrated to India’s 2021 CO2 baseline
+- Conservative non-CO2 GHG proxies
 - Forest/nature/tech CDR sinks
-- IPCC-style CO₂ impulse response for atmospheric ppm contribution
+- IPCC-style CO2 impulse response for atmospheric ppm contribution
 - PM2.5 proxy from the included calibration pack
 
-The large 2100 temperature display is an En‑ROADS-style global-equivalent pathway analog. The app also exposes India’s direct simplified TCRE contribution in the same panel.
+The large 2100 temperature display is an En-ROADS-style global-equivalent pathway analog. The app also exposes India’s direct simplified TCRE contribution in the same panel.

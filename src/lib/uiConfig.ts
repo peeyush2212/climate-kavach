@@ -110,7 +110,7 @@ export const leverSpecs: LeverSpec[] = [
   },
   {
     key: "NewZero_action",
-    title: "New Zero‑Carbon",
+    title: "New Zero-Carbon",
     unit: "policy",
     min: -100,
     max: 100,
@@ -124,7 +124,7 @@ export const leverSpecs: LeverSpec[] = [
   {
     key: "CarbonPrice_INR_tCO2",
     title: "Carbon Price",
-    unit: "₹/tCO₂",
+    unit: "Rs /tCO2",
     min: 0,
     max: 15000,
     step: 100,
@@ -132,7 +132,7 @@ export const leverSpecs: LeverSpec[] = [
     lowLabel: "none",
     highLabel: "very high",
     statusLabel: status,
-    help: "Applies a fossil-fuel penalty, reducing fossil shares and total energy demand. Expressed as ₹ per tCO₂.",
+    help: "Applies a fossil-fuel penalty, reducing fossil shares and total energy demand. Expressed as Rs per tCO2.",
   },
 
   // Transport
@@ -194,7 +194,7 @@ export const leverSpecs: LeverSpec[] = [
   // CDR
   {
     key: "NatureBasedRemoval_action",
-    title: "Nature‑Based",
+    title: "Nature-Based",
     unit: "policy",
     min: -100,
     max: 100,
@@ -203,7 +203,7 @@ export const leverSpecs: LeverSpec[] = [
     lowLabel: "low",
     highLabel: "very high",
     statusLabel: status,
-    help: "Adds biological CO₂ removal beyond the Forest Area slider. Includes restoration, agroforestry, and soil carbon proxies.",
+    help: "Adds biological CO2 removal beyond the Forest Area slider. Includes restoration, agroforestry, and soil carbon proxies.",
   },
   {
     key: "TechRemoval_action",
@@ -216,7 +216,7 @@ export const leverSpecs: LeverSpec[] = [
     lowLabel: "none",
     highLabel: "very high",
     statusLabel: status,
-    help: "Adds engineered CO₂ removal (DAC, BECCS-like pathways) with a conservative India-scale cap.",
+    help: "Adds engineered CO2 removal (DAC, BECCS-like pathways) with a conservative India-scale cap.",
   },
 
   // Other GHG
@@ -328,7 +328,7 @@ export const leverSpecs: LeverSpec[] = [
     lowLabel: "low",
     highLabel: "universal",
     statusLabel: status,
-    help: "Health-first lever. Reduces PM2.5 exposure; can affect measured fossil CO₂ depending on LPG/electric mix.",
+    help: "Health-first lever. Reduces PM2.5 exposure; can affect measured fossil CO2 depending on LPG/electric mix.",
   },
   {
     key: "Urban2050_pct",
@@ -358,7 +358,7 @@ export const leverSpecs: LeverSpec[] = [
   },
   {
     key: "RD2050_pct_gdp",
-    title: "Clean‑Tech R&D",
+    title: "Clean-Tech R&D",
     unit: "% GDP in 2050",
     min: 0.1,
     max: 4,
@@ -393,7 +393,7 @@ export const leverSpecs: LeverSpec[] = [
     lowLabel: "weak",
     highLabel: "strong",
     statusLabel: status,
-    help: "Reduces PM2.5 exposure proxy without directly changing CO₂.",
+    help: "Reduces PM2.5 exposure proxy without directly changing CO2.",
   },
 ];
 

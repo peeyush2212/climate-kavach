@@ -6,8 +6,8 @@ import { SiteFooter } from "@/components/site-footer";
 import { PaywallModal } from "@/components/paywall-modal";
 
 export const metadata: Metadata = {
-  title: "India‑ROADS — India emissions simulator",
-  description: "En‑ROADS‑style India-tailored emissions simulator with interactive sliders and charts.",
+  title: "Climate Kavach - India emissions simulator",
+  description: "En-ROADS-style India-tailored emissions simulator with interactive sliders and charts.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

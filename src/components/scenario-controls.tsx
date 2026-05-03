@@ -3,23 +3,23 @@
 import * as React from "react";
 import { Copy, Download, GitCompareArrows, Lock, RotateCcw, Save, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 import { encodeScenario } from "@/lib/scenarioCodec";
 import { downloadText } from "@/lib/utils";
 import { toCsv } from "@/lib/simulator";
 
 export function ScenarioControls() {
-  const scenario = useIndiaRoadsStore((s) => s.scenario);
-  const sim = useIndiaRoadsStore((s) => s.sim);
-  const premium = useIndiaRoadsStore((s) => s.premiumUnlocked);
-  const openPaywall = useIndiaRoadsStore((s) => s.openPaywall);
-  const resetScenario = useIndiaRoadsStore((s) => s.resetScenario);
-  const saveScenario = useIndiaRoadsStore((s) => s.saveScenario);
-  const saved = useIndiaRoadsStore((s) => s.saved);
-  const loadScenario = useIndiaRoadsStore((s) => s.loadScenario);
-  const deleteScenario = useIndiaRoadsStore((s) => s.deleteScenario);
-  const compareIds = useIndiaRoadsStore((s) => s.compareIds);
-  const toggleCompare = useIndiaRoadsStore((s) => s.toggleCompare);
+  const scenario = useClimateKavachStore((s) => s.scenario);
+  const sim = useClimateKavachStore((s) => s.sim);
+  const premium = useClimateKavachStore((s) => s.premiumUnlocked);
+  const openPaywall = useClimateKavachStore((s) => s.openPaywall);
+  const resetScenario = useClimateKavachStore((s) => s.resetScenario);
+  const saveScenario = useClimateKavachStore((s) => s.saveScenario);
+  const saved = useClimateKavachStore((s) => s.saved);
+  const loadScenario = useClimateKavachStore((s) => s.loadScenario);
+  const deleteScenario = useClimateKavachStore((s) => s.deleteScenario);
+  const compareIds = useClimateKavachStore((s) => s.compareIds);
+  const toggleCompare = useClimateKavachStore((s) => s.toggleCompare);
 
   const [name, setName] = React.useState("");
   const [copied, setCopied] = React.useState(false);
@@ -36,7 +36,7 @@ export function ScenarioControls() {
 
   function doExportCsv() {
     if (!sim) return;
-    downloadText("india_roads_scenario.csv", toCsv(sim.rows), "text/csv");
+    downloadText("climate_kavach_scenario.csv", toCsv(sim.rows), "text/csv");
   }
 
   return (
@@ -70,7 +70,7 @@ export function ScenarioControls() {
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Name this scenario…"
+            placeholder="Name this scenario..."
             className="h-10 w-full rounded-lg border border-cyan-300/15 bg-slate-950/70 px-3 text-sm text-slate-100 placeholder:text-slate-500"
           />
           <Button onClick={() => { saveScenario(name); setName(""); }}><Save className="h-4 w-4" /> Save</Button>

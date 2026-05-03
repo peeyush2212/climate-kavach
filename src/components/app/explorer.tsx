@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 import { randomScenarioAround, simulate, summarize2050 } from "@/lib/simulator";
 import { EChart } from "@/components/charts/EChart";
 import { axisTooltip, baseChartOption, chartColors, formatChartNumber } from "@/components/charts/chartStyle";
@@ -22,13 +22,13 @@ type MetricKey =
   | "co2pc_2050";
 
 const metricLabels: Record<MetricKey, string> = {
-  netEmissions2050: "2050 Net CO₂ (Mt/yr)",
-  cumNetGt: "Cumulative Net CO₂ (Gt)",
-  ppmContribution2050: "Atm. CO₂ contribution (ppm)",
+  netEmissions2050: "2050 Net CO2 (Mt/yr)",
+  cumNetGt: "Cumulative Net CO2 (Gt)",
+  ppmContribution2050: "Atm. CO2 contribution (ppm)",
   renewables2050: "Renewables (2050, %)",
   ei2050: "Energy intensity (2050)",
   pm25_2050: "PM2.5 exposed (2050, %)",
-  co2pc_2050: "CO₂ per capita (2050, t)",
+  co2pc_2050: "CO2 per capita (2050, t)",
 };
 
 function metricValue(summary: ReturnType<typeof summarize2050>, key: MetricKey) {
@@ -36,11 +36,11 @@ function metricValue(summary: ReturnType<typeof summarize2050>, key: MetricKey) 
 }
 
 export function Explorer() {
-  const inputs = useIndiaRoadsStore((s) => s.inputs);
-  const scenario = useIndiaRoadsStore((s) => s.scenario);
-  const setScenario = useIndiaRoadsStore((s) => s.setScenario);
-  const baselineSim = useIndiaRoadsStore((s) => s.baselineSim);
-  const sim = useIndiaRoadsStore((s) => s.sim);
+  const inputs = useClimateKavachStore((s) => s.inputs);
+  const scenario = useClimateKavachStore((s) => s.scenario);
+  const setScenario = useClimateKavachStore((s) => s.setScenario);
+  const baselineSim = useClimateKavachStore((s) => s.baselineSim);
+  const sim = useClimateKavachStore((s) => s.sim);
 
   const [n, setN] = React.useState(120);
   const [spread, setSpread] = React.useState(0.15);
@@ -193,7 +193,7 @@ export function Explorer() {
     const baseOption = baseChartOption();
     return {
       ...baseOption,
-      title: { text: "One-at-a-time sensitivity (Δ cumulative net CO₂)", left: "center", top: 0, textStyle: { fontSize: 12, fontWeight: 600 } },
+      title: { text: "One-at-a-time sensitivity (Δ cumulative net CO2)", left: "center", top: 0, textStyle: { fontSize: 12, fontWeight: 600 } },
       tooltip: axisTooltip("Gt", 2),
       grid: { ...(baseOption.grid as object), left: 16, right: 10, top: 50, bottom: 24, containLabel: true },
       xAxis: { ...(baseOption.xAxis as object), type: "value" },
@@ -219,7 +219,7 @@ export function Explorer() {
   }, [sens]);
 
   if (!inputs || !scenario || !baselineSim || !sim) {
-    return <div className="text-sm text-muted-foreground">Loading…</div>;
+    return <div className="text-sm text-muted-foreground">Loading...</div>;
   }
 
   return (

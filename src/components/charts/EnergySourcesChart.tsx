@@ -4,7 +4,7 @@ import * as React from "react";
 import type { EChartsOption } from "echarts";
 import { EChart } from "@/components/charts/EChart";
 import { axisTooltip, baseChartOption, chartColors, dataZoom } from "@/components/charts/chartStyle";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 
 const seriesConfig = [
   { name: "COAL", field: "coal_EJ", color: chartColors.coal },
@@ -17,9 +17,9 @@ const seriesConfig = [
 ] as const;
 
 export function EnergySourcesChart() {
-  const sim = useIndiaRoadsStore((s) => s.sim);
-  const zoom = useIndiaRoadsStore((s) => s.zoom);
-  const setZoom = useIndiaRoadsStore((s) => s.setZoom);
+  const sim = useClimateKavachStore((s) => s.sim);
+  const zoom = useClimateKavachStore((s) => s.zoom);
+  const setZoom = useClimateKavachStore((s) => s.setZoom);
 
   const option = React.useMemo<EChartsOption>(() => {
     if (!sim) return {};

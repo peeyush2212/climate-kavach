@@ -25,7 +25,7 @@ export async function POST(req: Request) {
               price_data: {
                 currency: "inr",
                 product_data: {
-                  name: "India-ROADS Premium Data Pack",
+                  name: "Climate Kavach Premium Data Pack",
                   description: "One-time premium scenario and data pack",
                 },
                 unit_amount: Math.round(amountInr * 100),
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
           ],
       success_url: `${origin}/premium/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/premium?canceled=1`,
-      metadata: { product: "india-roads-premium", amountInr: String(amountInr) },
+      metadata: { product: "climate-kavach-premium", amountInr: String(amountInr) },
     });
 
     return NextResponse.json({ url: session.url });

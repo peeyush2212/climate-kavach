@@ -18,7 +18,7 @@ export function SiteHeader() {
             <Sparkles className="h-5 w-5" />
           </span>
           <span>
-            <span className="block text-base font-black tracking-[-0.04em] text-cyan-50">INDIA-ROADS</span>
+            <span className="block text-base font-black tracking-[-0.04em] text-cyan-50">Climate Kavach</span>
             <span className="block text-[10px] font-black uppercase tracking-[0.28em] text-cyan-300/70">En-ROADS style simulator</span>
           </span>
         </Link>

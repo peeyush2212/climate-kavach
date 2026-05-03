@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ArrowDownRight, ArrowUpRight, Cloud, Flame, Leaf, Wind, Zap, Activity } from "lucide-react";
 import { summarize2050 } from "@/lib/simulator";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 import { formatNumber } from "@/lib/utils";
 
 function Delta({ value, unit, positiveIsGood = false }: { value: number; unit: string; positiveIsGood?: boolean }) {
@@ -20,8 +20,8 @@ function Delta({ value, unit, positiveIsGood = false }: { value: number; unit: s
 }
 
 export function KpiCards() {
-  const baselineSim = useIndiaRoadsStore((s) => s.baselineSim);
-  const sim = useIndiaRoadsStore((s) => s.sim);
+  const baselineSim = useClimateKavachStore((s) => s.baselineSim);
+  const sim = useClimateKavachStore((s) => s.sim);
 
   const data = React.useMemo(() => {
     if (!baselineSim || !sim) return null;
@@ -33,7 +33,7 @@ export function KpiCards() {
   const { b, c } = data;
   const cards = [
     { icon: Flame, title: "2050 Net GHG", value: `${formatNumber(c.netGhg2050 / 1000, { maximumFractionDigits: 2 })} Gt`, delta: (c.netGhg2050 - b.netGhg2050) / 1000, unit: "Gt" },
-    { icon: Cloud, title: "2100 Atm. CO₂", value: `${formatNumber(c.ppmContribution2100, { maximumFractionDigits: 1 })} ppm`, delta: c.ppmContribution2100 - b.ppmContribution2100, unit: "ppm" },
+    { icon: Cloud, title: "2100 Atm. CO2", value: `${formatNumber(c.ppmContribution2100, { maximumFractionDigits: 1 })} ppm`, delta: c.ppmContribution2100 - b.ppmContribution2100, unit: "ppm" },
     { icon: Zap, title: "Primary Energy 2100", value: `${formatNumber(c.primaryEnergy2100, { maximumFractionDigits: 0 })} EJ`, delta: c.primaryEnergy2100 - b.primaryEnergy2100, unit: "EJ", positiveIsGood: false },
     { icon: Leaf, title: "Renewables 2050", value: `${formatNumber(c.renewables2050, { maximumFractionDigits: 0 })}%`, delta: c.renewables2050 - b.renewables2050, unit: "pp", positiveIsGood: true },
     { icon: Wind, title: "PM2.5 Exposure", value: `${formatNumber(c.pm25_2050, { maximumFractionDigits: 1 })}%`, delta: c.pm25_2050 - b.pm25_2050, unit: "pp" },

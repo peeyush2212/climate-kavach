@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Info } from "lucide-react";
 import { leverGroups, leverSpecs, type LeverSpec } from "@/lib/uiConfig";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 import { Slider } from "@/components/ui/slider";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn, formatNumber } from "@/lib/utils";
@@ -21,7 +21,7 @@ function formatLeverValue(l: LeverSpec, v: number) {
   }
   if (l.key === "Pop2050_billion") return `${v.toFixed(2)} B`;
   if (l.key === "GDPpc_CAGR_pct" || l.key === "EI_improve_pct_per_year") return `${v.toFixed(1)}%/yr`;
-  if (l.key === "CarbonPrice_INR_tCO2") return `₹${formatNumber(v, { maximumFractionDigits: 0 })}/t`;
+  if (l.key === "CarbonPrice_INR_tCO2") return `Rs ${formatNumber(v, { maximumFractionDigits: 0 })}/t`;
   if (l.key === "RD2050_pct_gdp") return `${v.toFixed(2)}% GDP`;
   if (l.key === "AirControls_strength") return `${Math.round(v * 100)}%`; 
   if (String(l.key).includes("pct") || String(l.key).includes("2050")) return `${v.toFixed(0)}%`;
@@ -29,8 +29,8 @@ function formatLeverValue(l: LeverSpec, v: number) {
 }
 
 function SliderCard({ spec }: { spec: LeverSpec }) {
-  const scenario = useIndiaRoadsStore((s) => s.scenario);
-  const setScenario = useIndiaRoadsStore((s) => s.setScenario);
+  const scenario = useClimateKavachStore((s) => s.scenario);
+  const setScenario = useClimateKavachStore((s) => s.setScenario);
   if (!scenario) return null;
   const v = scenario[spec.key];
   const action = isActionSlider(spec);
@@ -70,8 +70,8 @@ function SliderCard({ spec }: { spec: LeverSpec }) {
 }
 
 export function LeversPanel({ className }: { className?: string }) {
-  const scenario = useIndiaRoadsStore((s) => s.scenario);
-  if (!scenario) return <div className={cn("rounded-lg border border-cyan-300/20 p-4 text-slate-400", className)}>Loading levers…</div>;
+  const scenario = useClimateKavachStore((s) => s.scenario);
+  if (!scenario) return <div className={cn("rounded-lg border border-cyan-300/20 p-4 text-slate-400", className)}>Loading levers...</div>;
 
   return (
     <TooltipProvider>

@@ -545,7 +545,7 @@ export function makeWaterfallContributions(baseline: SimulationResult, current: 
     "GDP/cap": c2050.gdppc_ppp / Math.max(1, b2050.gdppc_ppp),
     "Energy demand": c2050.energy_intensity / Math.max(1e-6, b2050.energy_intensity),
     "Fuel mix": c2050.carbon_intensity_kg_per_GJ / Math.max(1e-6, b2050.carbon_intensity_kg_per_GJ),
-    "Non-CO₂": c2050.nonco2_mtco2e / Math.max(1e-6, b2050.nonco2_mtco2e),
+    "Non-CO2": c2050.nonco2_mtco2e / Math.max(1e-6, b2050.nonco2_mtco2e),
   };
   const logRatios = Object.fromEntries(Object.entries(factors).map(([k, v]) => [k, Math.log(Math.max(1e-9, v))])) as Record<string, number>;
   const totalLog = Object.values(logRatios).reduce((a, b) => a + b, 0);

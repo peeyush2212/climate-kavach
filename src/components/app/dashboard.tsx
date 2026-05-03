@@ -13,10 +13,10 @@ import { ScenarioControls } from "@/components/scenario-controls";
 import { TemperaturePanel } from "@/components/temperature-panel";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 
 export function Dashboard() {
-  const inputs = useIndiaRoadsStore((s) => s.inputs);
+  const inputs = useClimateKavachStore((s) => s.inputs);
 
   if (!inputs) {
     return <div className="text-sm text-slate-400">Loading model...</div>;
@@ -30,18 +30,18 @@ export function Dashboard() {
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant="outline" className="border-cyan-300/30 bg-cyan-300/10 text-cyan-100">
-                <Satellite className="mr-1 h-3 w-3" /> India‑ROADS X
+                <Satellite className="mr-1 h-3 w-3" /> Climate Kavach
               </Badge>
               <Badge variant="outline" className="border-fuchsia-300/25 bg-fuchsia-300/10 text-fuchsia-100">
-                En‑ROADS layout • India data engine
+                En-ROADS layout - India data engine
               </Badge>
             </div>
             <h1 className="mt-4 max-w-4xl text-3xl font-black tracking-[-0.055em] text-cyan-50 sm:text-5xl">
               India climate pathway command deck
             </h1>
             <p className="mt-3 max-w-4xl text-sm font-semibold leading-6 text-slate-400">
-              Tune En‑ROADS-style levers plus India-specific policy controls. The simulator recalculates energy supply,
-              net GHG emissions, CO₂ concentration contribution, PM2.5 co-benefits and a 2100 temperature analog.
+              Tune En-ROADS-style levers plus India-specific policy controls. The simulator recalculates energy supply,
+              net GHG emissions, CO2 concentration contribution, PM2.5 co-benefits and a 2100 temperature analog.
             </p>
           </div>
           <div className="grid min-w-[220px] grid-cols-2 gap-2 text-sm">
@@ -109,10 +109,10 @@ export function Dashboard() {
           </CardHeader>
           <CardContent className="space-y-3 text-sm font-semibold leading-6 text-slate-400">
             <p>
-              The top charts mimic the En‑ROADS front page: stacked energy supply, net greenhouse-gas emissions, and a large 2100 climate signal.
+              The top charts mimic the En-ROADS front page: stacked energy supply, net greenhouse-gas emissions, and a large 2100 climate signal.
             </p>
             <p>
-              India-specific levers—energy intensity, grid losses, clean cooking, manufacturing, urbanization, forests, R&D and air controls—connect the global-style controls to Indian data.
+              India-specific levers - energy intensity, grid losses, clean cooking, manufacturing, urbanization, forests, R&D and air controls - connect the global-style controls to Indian data.
             </p>
             <p>
               Premium downloads are served from a protected API route, not from the public folder.

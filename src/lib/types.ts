@@ -78,7 +78,7 @@ export type ModelInputs = {
  * Negative values mean: discourage/weaken/delay the lever.
  */
 export type Scenario = {
-  // Energy supply — En-ROADS-style
+  // Energy supply - En-ROADS-style
   Coal_action: number;
   Oil_action: number;
   Gas_action: number;
@@ -88,24 +88,24 @@ export type Scenario = {
   NewZero_action: number;
   CarbonPrice_INR_tCO2: number;
 
-  // Transport — En-ROADS-style
+  // Transport - En-ROADS-style
   TransportEfficiency_action: number;
   TransportElectrification_action: number;
 
-  // Buildings and industry — En-ROADS-style
+  // Buildings and industry - En-ROADS-style
   BuildingsIndustryEfficiency_action: number;
   BuildingsIndustryElectrification_action: number;
 
-  // Carbon dioxide removal — En-ROADS-style
+  // Carbon dioxide removal - En-ROADS-style
   NatureBasedRemoval_action: number;
   TechRemoval_action: number;
 
-  // Other sources of greenhouse gases — En-ROADS-style
+  // Other sources of greenhouse gases - En-ROADS-style
   AgriculturalEmissions_action: number;
   WasteLeakage_action: number;
   Deforestation_action: number;
 
-  // Growth — En-ROADS-style
+  // Growth - En-ROADS-style
   Pop2050_billion: number;
   GDPpc_CAGR_pct: number;
 

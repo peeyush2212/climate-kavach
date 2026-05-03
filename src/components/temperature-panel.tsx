@@ -3,12 +3,12 @@
 import * as React from "react";
 import { Thermometer, Zap } from "lucide-react";
 import { summarize2050 } from "@/lib/simulator";
-import { useIndiaRoadsStore } from "@/lib/store";
+import { useClimateKavachStore } from "@/lib/store";
 import { formatNumber } from "@/lib/utils";
 
 export function TemperaturePanel() {
-  const sim = useIndiaRoadsStore((s) => s.sim);
-  const baselineSim = useIndiaRoadsStore((s) => s.baselineSim);
+  const sim = useClimateKavachStore((s) => s.sim);
+  const baselineSim = useClimateKavachStore((s) => s.baselineSim);
   const values = React.useMemo(() => {
     if (!sim || !baselineSim) return null;
     return { c: summarize2050(sim), b: summarize2050(baselineSim) };
@@ -37,10 +37,10 @@ export function TemperaturePanel() {
           Global-equivalent temperature analog by 2100
         </div>
         <div className="mt-3 max-w-[270px] text-xs leading-5 text-slate-500">
-          The India-only contribution is {formatNumber(values.c.indiaTempContribution2100, { maximumFractionDigits: 3 })}°C in this simplified TCRE module; the large display is an En‑ROADS-style pathway analog.
+          The India-only contribution is {formatNumber(values.c.indiaTempContribution2100, { maximumFractionDigits: 3 })}°C in this simplified TCRE module; the large display is an En-ROADS-style pathway analog.
         </div>
         <div className="mt-5 flex items-center gap-2 rounded-xl border border-cyan-300/15 bg-slate-950/55 px-3 py-2 text-xs font-bold text-slate-400">
-          <Zap className="h-4 w-4 text-cyan-300" /> {formatNumber(values.c.ppmContribution2100, { maximumFractionDigits: 1 })} ppm India CO₂ contribution
+          <Zap className="h-4 w-4 text-cyan-300" /> {formatNumber(values.c.ppmContribution2100, { maximumFractionDigits: 1 })} ppm India CO2 contribution
         </div>
       </div>
     </div>
