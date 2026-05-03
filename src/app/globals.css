@@ -26,25 +26,25 @@
 }
 
 .light {
-  --background: 216 44% 5%;
-  --foreground: 190 45% 96%;
-  --card: 220 38% 8%;
-  --card-foreground: 190 45% 96%;
-  --popover: 222 84% 5%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 183 96% 45%;
-  --primary-foreground: 218 52% 7%;
-  --secondary: 218 36% 14%;
-  --secondary-foreground: 190 45% 96%;
-  --muted: 217 34% 13%;
-  --muted-foreground: 193 18% 68%;
-  --accent: 189 86% 18%;
-  --accent-foreground: 190 45% 96%;
-  --destructive: 0 62.8% 30.6%;
+  --background: 204 58% 98%;
+  --foreground: 222 47% 9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 84% 5%;
+  --primary: 188 100% 28%;
+  --primary-foreground: 190 100% 97%;
+  --secondary: 189 60% 94%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 210 38% 94%;
+  --muted-foreground: 215 18% 39%;
+  --accent: 189 70% 91%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
-  --border: 193 55% 20%;
-  --input: 193 55% 20%;
-  --ring: 183 96% 45%;
+  --border: 201 32% 86%;
+  --input: 201 32% 86%;
+  --ring: 188 100% 34%;
 }
 
 html, body { min-height: 100%; }
@@ -66,13 +66,12 @@ body {
 
 .light body {
   background:
-    linear-gradient(rgba(45, 212, 191, 0.075) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(45, 212, 191, 0.055) 1px, transparent 1px),
-    radial-gradient(circle at 14% 0%, rgba(34, 211, 238, 0.22), transparent 30rem),
-    radial-gradient(circle at 90% 12%, rgba(168, 85, 247, 0.20), transparent 34rem),
-    radial-gradient(circle at 50% 110%, rgba(16, 185, 129, 0.12), transparent 30rem),
-    linear-gradient(180deg, #020617 0%, #06111f 46%, #020617 100%);
-  background-size: 46px 46px, 46px 46px, auto, auto, auto, auto;
+    linear-gradient(rgba(8, 47, 73, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8, 47, 73, 0.06) 1px, transparent 1px),
+    radial-gradient(circle at 18% 0%, rgba(20, 184, 166, 0.18), transparent 32rem),
+    radial-gradient(circle at 82% 10%, rgba(59, 130, 246, 0.14), transparent 34rem),
+    linear-gradient(180deg, #f8fbff 0%, #edf7ff 48%, #f8fbff 100%);
+  background-size: 48px 48px, 48px 48px, auto, auto, auto;
 }
 
 ::selection { background: hsl(var(--primary) / 0.28); }
@@ -82,3 +81,111 @@ body {
 ::-webkit-scrollbar { height: 9px; width: 9px; }
 ::-webkit-scrollbar-track { background: rgba(15, 23, 42, .75); }
 ::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, .35); border-radius: 999px; }
+
+/* Raise dark-mode muted text contrast across the dashboard-heavy product pages. */
+.text-slate-500 { color: rgb(148 163 184); }
+.text-slate-400 { color: rgb(203 213 225); }
+
+/* Light mode keeps the SaaS look, but maps dark surfaces and pale text to readable light equivalents. */
+.light .bg-slate-950,
+.light .bg-slate-950\/95,
+.light .bg-slate-950\/85,
+.light .bg-slate-950\/75,
+.light .bg-slate-950\/70,
+.light .bg-slate-950\/65,
+.light .bg-slate-950\/60,
+.light .bg-slate-950\/55,
+.light .bg-slate-950\/50,
+.light .bg-slate-950\/45,
+.light .bg-slate-950\/40,
+.light .bg-slate-900\/90,
+.light .bg-slate-900\/70,
+.light .bg-slate-900\/65,
+.light .bg-slate-900\/55 {
+  background-color: rgba(255, 255, 255, 0.88);
+}
+
+.light .bg-background\/50,
+.light .bg-background\/40,
+.light .bg-card\/88,
+.light .bg-card\/72 {
+  background-color: rgba(255, 255, 255, 0.86);
+}
+
+.light .border-cyan-300\/10,
+.light .border-cyan-300\/15,
+.light .border-cyan-300\/20,
+.light .border-cyan-300\/25,
+.light .border-cyan-300\/30,
+.light .border-cyan-300\/35,
+.light .border-blue-300\/20,
+.light .border-emerald-300\/15,
+.light .border-emerald-300\/20,
+.light .border-orange-300\/15,
+.light .border-orange-300\/20,
+.light .border-fuchsia-300\/20 {
+  border-color: rgba(14, 116, 144, 0.30);
+}
+
+.light .text-cyan-50,
+.light .text-cyan-100,
+.light .text-cyan-200,
+.light .group-hover\:text-cyan-200:hover {
+  color: rgb(8 51 68);
+}
+
+.light .text-slate-100,
+.light .text-slate-200,
+.light .text-slate-300,
+.light .text-slate-400,
+.light .text-slate-500 {
+  color: rgb(30 41 59);
+}
+
+.light .text-emerald-100,
+.light .text-emerald-200,
+.light .text-emerald-300 {
+  color: rgb(6 95 70);
+}
+
+.light .text-orange-100,
+.light .text-orange-200,
+.light .text-orange-300 {
+  color: rgb(154 52 18);
+}
+
+.light .text-yellow-100,
+.light .text-yellow-200,
+.light .text-yellow-300 {
+  color: rgb(133 77 14);
+}
+
+.light .text-red-100,
+.light .text-red-200,
+.light .text-red-300 {
+  color: rgb(153 27 27);
+}
+
+.light .text-blue-100,
+.light .text-blue-200,
+.light .text-blue-300 {
+  color: rgb(30 64 175);
+}
+
+.light .text-fuchsia-100,
+.light .text-fuchsia-200,
+.light .text-fuchsia-300 {
+  color: rgb(134 25 143);
+}
+
+.light input,
+.light select,
+.light textarea {
+  background-color: rgba(255, 255, 255, 0.92);
+  color: rgb(15 23 42);
+}
+
+.light input::placeholder,
+.light textarea::placeholder {
+  color: rgb(71 85 105);
+}
