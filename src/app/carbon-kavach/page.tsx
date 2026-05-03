@@ -1,16 +1,7 @@
-import { Building2, ClipboardCheck, Factory, FileText, Gauge, Leaf, LineChart, ReceiptText, Sparkles, Upload, Zap } from "lucide-react";
+import { Building2, ClipboardCheck, FileText, Gauge, Leaf, LineChart, ReceiptText, Sparkles, Upload, Zap } from "lucide-react";
 import { CarbonDashboardDemo } from "@/components/demo/carbon-dashboard-demo";
 import { ActionLink } from "@/components/marketing/action-link";
 import { MockActionModal } from "@/components/marketing/mock-action-modal";
-
-const painPoints = [
-  "No carbon footprint",
-  "No sustainability team",
-  "Rising energy bills",
-  "Diesel generator dependence",
-  "Buyer and ESG pressure",
-  "No affordable reporting tool",
-];
 
 const steps = [
   {
@@ -113,17 +104,8 @@ export default function CarbonKavachPage() {
         </div>
       </section>
 
-      <section className="space-y-4" aria-labelledby="carbon-problem">
-        <h2 id="carbon-problem" className="text-2xl font-black tracking-[-0.04em] text-cyan-50">
-          Most SMEs do not know where their emissions come from
-        </h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {painPoints.map((point) => (
-            <div key={point} className="rounded-xl border border-cyan-300/15 bg-slate-950/55 p-4 text-sm font-black text-slate-200">
-              {point}
-            </div>
-          ))}
-        </div>
+      <section id="sample-dashboard" className="scroll-mt-24">
+        <CarbonDashboardDemo />
       </section>
 
       <section className="space-y-4" aria-labelledby="carbon-how">
@@ -156,10 +138,6 @@ export default function CarbonKavachPage() {
             </div>
           ))}
         </div>
-      </section>
-
-      <section id="sample-dashboard" className="scroll-mt-24">
-        <CarbonDashboardDemo />
       </section>
 
       <section className="space-y-4" aria-labelledby="carbon-recommendations">

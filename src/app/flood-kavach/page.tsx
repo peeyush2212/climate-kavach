@@ -2,15 +2,6 @@ import { AlertTriangle, Building2, CheckCircle2, CloudRain, MapPinned, RadioTowe
 import { FloodDashboardDemo } from "@/components/demo/flood-dashboard-demo";
 import { ActionLink } from "@/components/marketing/action-link";
 
-const painPoints = [
-  "Warehouse gates flood suddenly",
-  "Basements and parking areas are exposed",
-  "Deliveries get delayed",
-  "Inventory gets damaged",
-  "Roads become inaccessible",
-  "Insurance documentation is weak",
-];
-
 const steps = [
   {
     title: "Add business location",
@@ -129,17 +120,8 @@ export default function FloodKavachPage() {
         </div>
       </section>
 
-      <section className="space-y-4" aria-labelledby="flood-problem">
-        <h2 id="flood-problem" className="text-2xl font-black tracking-[-0.04em] text-cyan-50">
-          City-wide flood alerts are not enough
-        </h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {painPoints.map((point) => (
-            <div key={point} className="rounded-xl border border-orange-300/15 bg-slate-950/55 p-4 text-sm font-black text-slate-200">
-              {point}
-            </div>
-          ))}
-        </div>
+      <section id="flood-demo" className="scroll-mt-24">
+        <FloodDashboardDemo />
       </section>
 
       <section className="space-y-4" aria-labelledby="flood-how">
@@ -172,10 +154,6 @@ export default function FloodKavachPage() {
             </div>
           ))}
         </div>
-      </section>
-
-      <section id="flood-demo" className="scroll-mt-24">
-        <FloodDashboardDemo />
       </section>
 
       <section className="space-y-4" aria-labelledby="flood-alerts">

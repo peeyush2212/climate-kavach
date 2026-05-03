@@ -26,25 +26,25 @@
 }
 
 .light {
-  --background: 204 58% 98%;
-  --foreground: 222 47% 9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222 47% 9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222 84% 5%;
-  --primary: 188 100% 28%;
-  --primary-foreground: 190 100% 97%;
-  --secondary: 189 60% 94%;
-  --secondary-foreground: 222 47% 11%;
-  --muted: 210 38% 94%;
-  --muted-foreground: 215 18% 39%;
-  --accent: 189 70% 91%;
-  --accent-foreground: 222 47% 11%;
-  --destructive: 0 84% 60%;
+  --background: 216 44% 5%;
+  --foreground: 190 45% 96%;
+  --card: 220 38% 8%;
+  --card-foreground: 190 45% 96%;
+  --popover: 222 84% 5%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 183 96% 45%;
+  --primary-foreground: 218 52% 7%;
+  --secondary: 218 36% 14%;
+  --secondary-foreground: 190 45% 96%;
+  --muted: 217 34% 13%;
+  --muted-foreground: 193 18% 68%;
+  --accent: 189 86% 18%;
+  --accent-foreground: 190 45% 96%;
+  --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
-  --border: 201 32% 86%;
-  --input: 201 32% 86%;
-  --ring: 188 100% 34%;
+  --border: 193 55% 20%;
+  --input: 193 55% 20%;
+  --ring: 183 96% 45%;
 }
 
 html, body { min-height: 100%; }
@@ -66,12 +66,13 @@ body {
 
 .light body {
   background:
-    linear-gradient(rgba(8, 47, 73, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(8, 47, 73, 0.05) 1px, transparent 1px),
-    radial-gradient(circle at 18% 0%, rgba(20, 184, 166, 0.16), transparent 32rem),
-    radial-gradient(circle at 82% 10%, rgba(59, 130, 246, 0.12), transparent 34rem),
-    hsl(var(--background));
-  background-size: 48px 48px, 48px 48px, auto, auto, auto;
+    linear-gradient(rgba(45, 212, 191, 0.075) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45, 212, 191, 0.055) 1px, transparent 1px),
+    radial-gradient(circle at 14% 0%, rgba(34, 211, 238, 0.22), transparent 30rem),
+    radial-gradient(circle at 90% 12%, rgba(168, 85, 247, 0.20), transparent 34rem),
+    radial-gradient(circle at 50% 110%, rgba(16, 185, 129, 0.12), transparent 30rem),
+    linear-gradient(180deg, #020617 0%, #06111f 46%, #020617 100%);
+  background-size: 46px 46px, 46px 46px, auto, auto, auto, auto;
 }
 
 ::selection { background: hsl(var(--primary) / 0.28); }
