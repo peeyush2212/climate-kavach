@@ -49,7 +49,7 @@ const modules: ModuleCard[] = [
   },
   {
     title: "Policy Simulator",
-    href: "/",
+    href: "/simulator",
     description: "Use the existing En-ROADS-style India simulator for policy, energy, and emissions scenarios.",
     icon: BarChart3,
     accent: "from-cyan-300/25 to-blue-300/10 text-cyan-200",

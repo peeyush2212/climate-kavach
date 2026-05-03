@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const platformLinks = [
-  { href: "/", label: "Policy Simulator" },
+  { href: "/simulator", label: "Policy Simulator" },
   { href: "/explorer", label: "Explorer" },
   { href: "/data-model", label: "Data & Model" },
   { href: "/carbon-kavach", label: "Carbon Kavach" },

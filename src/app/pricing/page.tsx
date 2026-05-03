@@ -7,7 +7,7 @@ const plans = [
     price: "Rs 0",
     includes: ["Sample carbon dashboard", "Sample flood-risk score", "Policy simulator demo", "Data pack preview"],
     button: "Try Demo",
-    href: "/",
+    href: "/simulator",
   },
   {
     name: "Carbon Kavach Basic",

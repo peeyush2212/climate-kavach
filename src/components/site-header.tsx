@@ -20,7 +20,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 
 const primaryNavItems = [
-  { href: "/", label: "Simulation", icon: Gauge },
+  { href: "/simulator", label: "Simulation", icon: Gauge },
   { href: "/carbon-kavach", label: "Carbon Kavach", icon: ReceiptText },
   { href: "/flood-kavach", label: "Flood Kavach", icon: CloudRain },
   { href: "/pricing", label: "Pricing", icon: BarChart3 },
