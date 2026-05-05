@@ -3,13 +3,10 @@ export default function Page() {
     <div className="prose prose-sm max-w-3xl dark:prose-invert">
       <h1>Privacy</h1>
       <p>
-        This demo stores scenarios and the “premium unlocked” flag locally in your browser (localStorage). No
-        personal data is sent to a server unless you configure Stripe and click the Stripe checkout button.
+        Climate Kavach stores saved scenarios locally in your browser so you can return to them during scenario
+        exploration. Payment and premium access flows use the configured checkout and protected download system.
       </p>
-      <p>
-        If you deploy this publicly, consider adding analytics and a proper privacy notice appropriate to your use
-        case.
-      </p>
+      <p>For privacy questions, contact peeyushkjha.12@gmail.com.</p>
     </div>
   );
 }

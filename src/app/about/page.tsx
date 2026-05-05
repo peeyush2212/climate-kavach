@@ -27,6 +27,8 @@ const goals = [
   "Reduce losses from extreme weather",
 ];
 
+const founders = ["Peeyush Kumar Jha", "Arya Rajhans"];
+
 export default function AboutPage() {
   return (
     <div className="space-y-10">
@@ -91,6 +93,15 @@ export default function AboutPage() {
           </div>
         </div>
         <aside className="rounded-2xl border border-cyan-300/20 bg-slate-950/60 p-6">
+          <h2 className="text-2xl font-black tracking-[-0.04em] text-cyan-50">Founders</h2>
+          <div className="mt-4 space-y-2 text-sm font-semibold text-slate-300">
+            {founders.map((founder) => (
+              <div key={founder} className="rounded-lg border border-cyan-300/15 bg-cyan-300/5 px-3 py-2">
+                {founder}
+              </div>
+            ))}
+          </div>
+          <div className="my-6 h-px bg-cyan-300/15" />
           <h2 className="text-2xl font-black tracking-[-0.04em] text-cyan-50">Platform pillars</h2>
           <div className="mt-5 space-y-3 text-sm font-semibold text-slate-300">
             <div className="flex gap-3"><BarChart3 className="h-4 w-4 shrink-0 text-cyan-300" /> Policy simulation</div>

@@ -1,20 +1,181 @@
 "use client";
 
 import * as React from "react";
-import { Activity, Cpu, Orbit, Satellite, SlidersHorizontal } from "lucide-react";
+import { Copy, Download, Lock, RotateCcw, Save, SlidersHorizontal } from "lucide-react";
 import { EnergySourcesChart } from "@/components/charts/EnergySourcesChart";
 import { EmissionsChart } from "@/components/charts/EmissionsChart";
-import { IndicatorChart } from "@/components/charts/IndicatorChart";
-import { WaterfallChart } from "@/components/charts/WaterfallChart";
 import { CompareEmissionsChart } from "@/components/charts/CompareEmissionsChart";
 import { KpiCards } from "@/components/kpi-cards";
-import { LeversPanel } from "@/components/levers-panel";
 import { ScenarioControls } from "@/components/scenario-controls";
 import { TemperaturePanel } from "@/components/temperature-panel";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ModuleEntryCards } from "@/components/marketing/module-entry-cards";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
+import { encodeScenario } from "@/lib/scenarioCodec";
+import { toCsv } from "@/lib/simulator";
 import { useClimateKavachStore } from "@/lib/store";
+import { leverGroups, leverSpecs, type LeverSpec } from "@/lib/uiConfig";
+import { downloadText, formatNumber } from "@/lib/utils";
+
+function isActionSlider(l: LeverSpec) {
+  return l.min === -100 && l.max === 100;
+}
+
+function formatLeverValue(l: LeverSpec, v: number) {
+  if (!isFinite(v)) return "-";
+  if (isActionSlider(l)) {
+    if (Math.abs(v) < 0.5) return "status quo";
+    return `${v > 0 ? (l.highLabel ?? "higher") : (l.lowLabel ?? "lower")} ${Math.abs(v).toFixed(0)}`;
+  }
+  if (l.key === "Pop2050_billion") return `${v.toFixed(2)} B`;
+  if (l.key === "GDPpc_CAGR_pct" || l.key === "EI_improve_pct_per_year") return `${v.toFixed(1)}%/yr`;
+  if (l.key === "CarbonPrice_INR_tCO2") return `Rs ${formatNumber(v, { maximumFractionDigits: 0 })}/t`;
+  if (l.key === "RD2050_pct_gdp") return `${v.toFixed(2)}% GDP`;
+  if (l.key === "AirControls_strength") return `${Math.round(v * 100)}%`;
+  if (String(l.key).includes("pct") || String(l.key).includes("2050")) return `${v.toFixed(0)}%`;
+  return formatNumber(v);
+}
+
+function CompactScenarioBar() {
+  const scenario = useClimateKavachStore((s) => s.scenario);
+  const sim = useClimateKavachStore((s) => s.sim);
+  const premium = useClimateKavachStore((s) => s.premiumUnlocked);
+  const openPaywall = useClimateKavachStore((s) => s.openPaywall);
+  const resetScenario = useClimateKavachStore((s) => s.resetScenario);
+  const saveScenario = useClimateKavachStore((s) => s.saveScenario);
+  const [name, setName] = React.useState("");
+  const [copied, setCopied] = React.useState(false);
+
+  function copyLink() {
+    if (!scenario) return;
+    const encoded = encodeScenario(scenario);
+    const url = `${window.location.origin}${window.location.pathname}?s=${encoded}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1200);
+    });
+  }
+
+  function exportCsv() {
+    if (!sim) return;
+    downloadText("climate_kavach_scenario.csv", toCsv(sim.rows), "text/csv");
+  }
+
+  return (
+    <div className="flex flex-wrap items-center gap-2 rounded-xl border border-cyan-300/20 bg-slate-950/60 p-2">
+      <Button variant="outline" size="sm" onClick={resetScenario}>
+        <RotateCcw className="h-4 w-4" />
+        Reset
+      </Button>
+      <Button variant="outline" size="sm" onClick={copyLink}>
+        <Copy className="h-4 w-4" />
+        {copied ? "Copied" : "Share"}
+      </Button>
+      <Button variant="outline" size="sm" onClick={exportCsv}>
+        <Download className="h-4 w-4" />
+        CSV
+      </Button>
+      <a href="/api/download/sample" className="inline-flex">
+        <Button variant="outline" size="sm">
+          <Download className="h-4 w-4" />
+          Sample
+        </Button>
+      </a>
+      {premium ? (
+        <a href="/api/download/premium" className="inline-flex">
+          <Button size="sm">
+            <Download className="h-4 w-4" />
+            Premium
+          </Button>
+        </a>
+      ) : (
+        <Button size="sm" onClick={openPaywall}>
+          <Lock className="h-4 w-4" />
+          Unlock
+        </Button>
+      )}
+      <div className="flex min-w-[230px] flex-1 items-center gap-2">
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Scenario name"
+          className="h-9 min-w-0 flex-1 rounded-md border border-cyan-300/15 bg-slate-950/70 px-3 text-sm text-slate-100 placeholder:text-slate-500"
+        />
+        <Button size="sm" onClick={() => { saveScenario(name); setName(""); }}>
+          <Save className="h-4 w-4" />
+          Save
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function CompactLeversPanel() {
+  const scenario = useClimateKavachStore((s) => s.scenario);
+  const setScenario = useClimateKavachStore((s) => s.setScenario);
+
+  if (!scenario) return <div className="text-sm text-slate-400">Loading levers...</div>;
+
+  return (
+    <section className="space-y-2" aria-labelledby="simulation-levers">
+      <div className="flex items-center gap-2">
+        <SlidersHorizontal className="h-4 w-4 text-cyan-300" />
+        <h2 id="simulation-levers" className="text-sm font-black uppercase tracking-[0.16em] text-cyan-100">
+          Simulation levers
+        </h2>
+      </div>
+      <div className="grid gap-2 xl:grid-cols-3">
+        {leverGroups.map((group) => {
+          const specs = leverSpecs.filter((l) => l.group === group);
+          return (
+            <section key={group} className="rounded-lg border border-cyan-300/20 bg-slate-950/60">
+              <div className="border-b border-cyan-300/15 bg-slate-300/15 px-3 py-1.5 text-center text-sm font-black text-cyan-50">
+                {group}
+              </div>
+              <div className="grid gap-x-3 gap-y-2 p-3 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
+                {specs.map((spec) => {
+                  const v = scenario[spec.key];
+                  return (
+                    <div key={spec.key} className="min-w-0">
+                      <div className="flex items-center justify-between gap-3">
+                        <label className="truncate text-sm font-bold text-slate-100" htmlFor={`lever-${spec.key}`}>
+                          {spec.title}
+                        </label>
+                        <span className="shrink-0 text-[11px] font-black text-slate-400">{formatLeverValue(spec, v)}</span>
+                      </div>
+                      <Slider
+                        id={`lever-${spec.key}`}
+                        value={[v]}
+                        min={spec.min}
+                        max={spec.max}
+                        step={spec.step}
+                        onValueChange={(val) => setScenario({ [spec.key]: val[0] } as any)}
+                        aria-label={spec.title}
+                        className="mt-1"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function ChartFrame({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
+  return (
+    <Card className="overflow-hidden border-cyan-300/20 bg-slate-950/60">
+      <div className="border-b border-cyan-300/15 bg-slate-300/15 px-4 py-2">
+        <h2 className="text-lg font-black leading-tight text-cyan-50">{title}</h2>
+        <div className="text-xs font-bold text-slate-400">{subtitle}</div>
+      </div>
+      <CardContent className="p-3">{children}</CardContent>
+    </Card>
+  );
+}
 
 export function Dashboard() {
   const inputs = useClimateKavachStore((s) => s.inputs);
@@ -24,113 +185,41 @@ export function Dashboard() {
   }
 
   return (
-    <div className="space-y-6">
-      <section className="relative overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950/70 p-5 shadow-[0_0_90px_rgba(34,211,238,.10)] backdrop-blur-xl sm:p-6">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_0%,rgba(34,211,238,.18),transparent_26rem),radial-gradient(circle_at_86%_0%,rgba(168,85,247,.14),transparent_28rem)]" />
-        <div className="relative z-10 flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline" className="border-cyan-300/30 bg-cyan-300/10 text-cyan-100">
-                <Satellite className="mr-1 h-3 w-3" /> Climate Kavach
-              </Badge>
-              <Badge variant="outline" className="border-fuchsia-300/25 bg-fuchsia-300/10 text-fuchsia-100">
-                En-ROADS layout - India data engine
-              </Badge>
-            </div>
-            <h1 className="mt-4 max-w-4xl text-3xl font-black tracking-[-0.055em] text-cyan-50 sm:text-5xl">
-              India climate pathway command deck
-            </h1>
-            <p className="mt-3 max-w-4xl text-sm font-semibold leading-6 text-slate-400">
-              Tune En-ROADS-style levers plus India-specific policy controls. The simulator recalculates energy supply,
-              net GHG emissions, CO2 concentration contribution, PM2.5 co-benefits and a 2100 temperature analog.
-            </p>
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-cyan-300/20 bg-slate-950/60 px-3 py-2">
+        <div>
+          <h1 className="text-xl font-black tracking-[-0.04em] text-cyan-50">Climate Kavach Policy Simulator</h1>
+          <p className="text-xs font-semibold text-slate-400">
+            India pathway model | Base {inputs.meta.baseYear} | Horizon {inputs.meta.endYear}
+          </p>
+        </div>
+        <CompactScenarioBar />
+      </div>
+
+      <div className="grid gap-3 xl:grid-cols-[1fr_1fr_300px]">
+        <ChartFrame title="Primary Energy by Source" subtitle="India pathway, exajoules/year">
+          <EnergySourcesChart compact />
+        </ChartFrame>
+        <ChartFrame title="Greenhouse Gas Net Emissions" subtitle="Gt CO2 equivalent/year">
+          <EmissionsChart compact />
+        </ChartFrame>
+        <TemperaturePanel compact />
+      </div>
+
+      <CompactLeversPanel />
+
+      <details className="rounded-xl border border-cyan-300/20 bg-slate-950/55 p-3">
+        <summary className="cursor-pointer text-sm font-black uppercase tracking-[0.16em] text-cyan-100">
+          Saved scenarios, comparison, and diagnostics
+        </summary>
+        <div className="mt-4 space-y-5">
+          <div className="grid gap-5 xl:grid-cols-[380px_1fr]">
+            <ScenarioControls />
+            <KpiCards />
           </div>
-          <div className="grid min-w-[220px] grid-cols-2 gap-2 text-sm">
-            <div className="rounded-xl border border-cyan-300/15 bg-slate-950/55 p-3">
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-slate-500"><Cpu className="h-3.5 w-3.5" /> Base</div>
-              <div className="mt-1 text-2xl font-black text-cyan-50 tabular-nums">{inputs.meta.baseYear}</div>
-            </div>
-            <div className="rounded-xl border border-cyan-300/15 bg-slate-950/55 p-3">
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-slate-500"><Orbit className="h-3.5 w-3.5" /> Horizon</div>
-              <div className="mt-1 text-2xl font-black text-cyan-50 tabular-nums">{inputs.meta.endYear}</div>
-            </div>
-          </div>
+          <CompareEmissionsChart />
         </div>
-      </section>
-
-      <ModuleEntryCards />
-
-      <div className="grid gap-5 xl:grid-cols-[1.1fr_1fr_310px]">
-        <Card className="border-cyan-300/20 bg-slate-950/60">
-          <CardContent className="pt-5"><EnergySourcesChart /></CardContent>
-        </Card>
-        <Card className="border-cyan-300/20 bg-slate-950/60">
-          <CardContent className="pt-5"><EmissionsChart /></CardContent>
-        </Card>
-        <TemperaturePanel />
-      </div>
-
-      <KpiCards />
-
-      <div className="grid gap-6 xl:grid-cols-[380px_1fr]">
-        <ScenarioControls />
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card className="border-cyan-300/15 bg-slate-950/55">
-            <CardContent className="pt-5">
-              <IndicatorChart title="Renewables share" field="renewables_share" yLabel="%" />
-            </CardContent>
-          </Card>
-          <Card className="border-cyan-300/15 bg-slate-950/55">
-            <CardContent className="pt-5">
-              <IndicatorChart title="Energy intensity" field="energy_intensity" yLabel="MJ/$" />
-            </CardContent>
-          </Card>
-          <Card className="border-cyan-300/15 bg-slate-950/55">
-            <CardContent className="pt-5">
-              <IndicatorChart title="PM2.5 exposure proxy" field="pm25_exposed_pct" yLabel="%" />
-            </CardContent>
-          </Card>
-          <Card className="border-cyan-300/15 bg-slate-950/55">
-            <CardContent className="pt-5">
-              <IndicatorChart title="Clean energy share" field="clean_energy_share_pct" yLabel="%" />
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      <CompareEmissionsChart />
-
-      <div className="grid gap-6 xl:grid-cols-[1fr_420px]">
-        <Card className="border-cyan-300/15 bg-slate-950/55">
-          <CardContent className="pt-5"><WaterfallChart /></CardContent>
-        </Card>
-        <Card className="border-cyan-300/15 bg-slate-950/55">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.14em] text-cyan-100">
-              <Activity className="h-4 w-4" /> Live interpretation
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 text-sm font-semibold leading-6 text-slate-400">
-            <p>
-              The top charts mimic the En-ROADS front page: stacked energy supply, net greenhouse-gas emissions, and a large 2100 climate signal.
-            </p>
-            <p>
-              India-specific levers - energy intensity, grid losses, clean cooking, manufacturing, urbanization, forests, R&D and air controls - connect the global-style controls to Indian data.
-            </p>
-            <p>
-              Premium downloads are served from a protected API route, not from the public folder.
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <section className="space-y-4">
-        <div className="flex items-center gap-2">
-          <SlidersHorizontal className="h-5 w-5 text-cyan-300" />
-          <h2 className="text-xl font-black tracking-[-0.03em] text-cyan-50">Simulation levers</h2>
-        </div>
-        <LeversPanel />
-      </section>
+      </details>
     </div>
   );
 }

@@ -54,7 +54,7 @@ export function SiteFooter() {
           <div className="mt-3 space-y-2 text-sm font-semibold text-slate-400">
             <div>Location: India</div>
             <div>UPI: peeyush2212@okhdfcbank</div>
-            <div>Email: hello@climatekavach.in</div>
+            <div>Email: peeyushkjha.12@gmail.com</div>
           </div>
           <div className="mt-4 flex gap-4 text-sm font-semibold">
             <Link href="/privacy" className="text-slate-400 hover:text-cyan-100">Privacy</Link>

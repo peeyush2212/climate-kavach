@@ -16,7 +16,7 @@ const seriesConfig = [
   { name: "NEW ZERO", field: "new_zero_EJ", color: chartColors.newZero },
 ] as const;
 
-export function EnergySourcesChart() {
+export function EnergySourcesChart({ compact = false }: { compact?: boolean }) {
   const sim = useClimateKavachStore((s) => s.sim);
   const zoom = useClimateKavachStore((s) => s.zoom);
   const setZoom = useClimateKavachStore((s) => s.setZoom);
@@ -30,21 +30,23 @@ export function EnergySourcesChart() {
 
     return {
       ...baseOption,
-      title: {
-        text: "Primary Energy by Source",
-        subtext: "India pathway, exajoules/year",
-        left: 0,
-        top: 0,
-        textStyle: { color: chartColors.text, fontSize: 14, fontWeight: 900 },
-        subtextStyle: { color: chartColors.muted, fontSize: 11, fontWeight: 700 },
-      },
+      title: compact
+        ? undefined
+        : {
+            text: "Primary Energy by Source",
+            subtext: "India pathway, exajoules/year",
+            left: 0,
+            top: 0,
+            textStyle: { color: chartColors.text, fontSize: 14, fontWeight: 900 },
+            subtextStyle: { color: chartColors.muted, fontSize: 11, fontWeight: 700 },
+          },
       color: seriesConfig.map((s) => s.color),
       tooltip: axisTooltip("EJ/yr", 1),
-      legend: { ...(baseOption.legend as object), top: 38, data: seriesConfig.map((s) => s.name) },
-      grid: { ...(baseOption.grid as object), top: 84, bottom: 48 },
+      legend: { ...(baseOption.legend as object), top: compact ? 0 : 38, right: 0, data: seriesConfig.map((s) => s.name) },
+      grid: { ...(baseOption.grid as object), top: compact ? 42 : 84, bottom: compact ? 22 : 48 },
       xAxis: { ...(baseOption.xAxis as object), type: "category", data: years, boundaryGap: false },
-      yAxis: { ...(baseOption.yAxis as object), type: "value", name: "Exajoules/year" },
-      dataZoom: dataZoom(startYear, endYear),
+      yAxis: { ...(baseOption.yAxis as object), type: "value", name: compact ? "" : "Exajoules/year" },
+      dataZoom: compact ? [{ type: "inside", startValue: startYear, endValue: endYear, zoomOnMouseWheel: "ctrl" }] : dataZoom(startYear, endYear),
       series: seriesConfig.map((cfg) => ({
         name: cfg.name,
         type: "line",
@@ -57,7 +59,7 @@ export function EnergySourcesChart() {
         emphasis: { focus: "series" },
       })),
     };
-  }, [sim, zoom]);
+  }, [sim, zoom, compact]);
 
   const onEvents = React.useMemo(() => ({
     datazoom: (params: any) => {
@@ -70,5 +72,5 @@ export function EnergySourcesChart() {
     },
   }), [sim, setZoom]);
 
-  return <EChart option={option} style={{ height: 330 }} onEvents={onEvents} />;
+  return <EChart option={option} style={{ height: compact ? 255 : 330 }} onEvents={onEvents} />;
 }

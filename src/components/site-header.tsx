@@ -13,6 +13,7 @@ import {
   Menu,
   RadioTower,
   ReceiptText,
+  Shield,
   Sparkles,
   X,
 } from "lucide-react";
@@ -63,13 +64,11 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-cyan-300/15 bg-slate-950/75 backdrop-blur-2xl">
       <div className="mx-auto flex min-h-16 max-w-[1600px] items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="group flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-300/35 bg-cyan-300/10 text-cyan-200 shadow-[0_0_35px_rgba(34,211,238,.30)] transition-transform group-hover:scale-105">
-            <Sparkles className="h-5 w-5" />
+          <span className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-300/35 bg-cyan-300/10 text-cyan-200 shadow-[0_0_35px_rgba(34,211,238,.30)] transition-transform group-hover:scale-105">
+            <Shield className="h-7 w-7" />
+            <span className="absolute text-[11px] font-black leading-none text-cyan-50">C</span>
           </span>
-          <span>
-            <span className="block text-base font-black tracking-[-0.04em] text-cyan-50">Climate Kavach</span>
-            <span className="block text-[10px] font-black uppercase tracking-[0.28em] text-cyan-300/70">En-ROADS style simulator</span>
-          </span>
+          <span className="block text-base font-black tracking-[-0.04em] text-cyan-50">Climate Kavach</span>
         </Link>
 
         <nav className="hidden items-center gap-1 xl:flex" aria-label="Primary navigation">

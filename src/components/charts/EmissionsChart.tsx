@@ -6,7 +6,7 @@ import { EChart } from "@/components/charts/EChart";
 import { axisTooltip, baseChartOption, chartColors, dataZoom } from "@/components/charts/chartStyle";
 import { useClimateKavachStore } from "@/lib/store";
 
-export function EmissionsChart() {
+export function EmissionsChart({ compact = false }: { compact?: boolean }) {
   const baselineSim = useClimateKavachStore((s) => s.baselineSim);
   const sim = useClimateKavachStore((s) => s.sim);
   const zoom = useClimateKavachStore((s) => s.zoom);
@@ -24,20 +24,22 @@ export function EmissionsChart() {
 
     return {
       ...baseOption,
-      title: { text: "Greenhouse Gas Net Emissions", left: 0, top: 0, textStyle: { color: chartColors.text, fontSize: 14, fontWeight: 800 } },
+      title: compact
+        ? undefined
+        : { text: "Greenhouse Gas Net Emissions", left: 0, top: 0, textStyle: { color: chartColors.text, fontSize: 14, fontWeight: 800 } },
       tooltip: axisTooltip("GtCO2e/yr", 2),
-      legend: { ...(baseOption.legend as object), top: 28, data: ["Baseline", "Current Scenario"] },
-      grid: { ...(baseOption.grid as object), top: 74, bottom: 48 },
+      legend: { ...(baseOption.legend as object), top: 0, right: 0, data: ["Baseline", "Current Scenario"] },
+      grid: { ...(baseOption.grid as object), top: compact ? 42 : 74, bottom: compact ? 22 : 48 },
       xAxis: { ...(baseOption.xAxis as object), type: "category", data: years, boundaryGap: false },
-      yAxis: { ...(baseOption.yAxis as object), type: "value", name: "Gt CO2 equivalent/year" },
-      dataZoom: dataZoom(years[startIndex], years[endIndex]),
+      yAxis: { ...(baseOption.yAxis as object), type: "value", name: compact ? "" : "Gt CO2 equivalent/year" },
+      dataZoom: compact ? [{ type: "inside", startValue: years[startIndex], endValue: years[endIndex], zoomOnMouseWheel: "ctrl" }] : dataZoom(years[startIndex], years[endIndex]),
       series: [
         { name: "Zero", type: "line", data: zero, showSymbol: false, lineStyle: { color: "rgba(226,232,240,.4)", width: 1 }, tooltip: { show: false } },
         { name: "Baseline", type: "line", data: base, showSymbol: false, smooth: true, lineStyle: { color: chartColors.baseline, type: "dashed", width: 2 } },
         { name: "Current Scenario", type: "line", data: cur, showSymbol: false, smooth: true, lineStyle: { color: chartColors.current, width: 3, shadowBlur: 12, shadowColor: chartColors.current }, areaStyle: { color: "rgba(34, 211, 238, .10)" } },
       ],
     };
-  }, [baselineSim, sim, zoom]);
+  }, [baselineSim, sim, zoom, compact]);
 
   const onEvents = React.useMemo(() => ({
     datazoom: (params: any) => {
@@ -50,5 +52,5 @@ export function EmissionsChart() {
     },
   }), [sim, setZoom]);
 
-  return <EChart option={option} style={{ height: 315 }} onEvents={onEvents} />;
+  return <EChart option={option} style={{ height: compact ? 255 : 315 }} onEvents={onEvents} />;
 }

@@ -117,8 +117,7 @@ export function ContactPage() {
               <CheckCircle2 className="h-12 w-12 text-emerald-300" />
               <h2 className="mt-4 text-2xl font-black text-cyan-50">Thank you. Climate Kavach will contact you soon.</h2>
               <p className="mt-3 max-w-xl text-sm font-semibold leading-6 text-slate-400">
-                Your request is saved in this browser session for the demo. A production build can connect this form to
-                email, CRM, or a database endpoint.
+                You can also reach the team directly at peeyushkjha.12@gmail.com.
               </p>
               <Button className="mt-5" type="button" onClick={() => setSubmitted(false)}>
                 Send another request
@@ -199,9 +198,8 @@ export function ContactPage() {
               <div className="mt-5 flex flex-wrap items-center gap-3">
                 <Button type="submit">
                   <Send className="h-4 w-4" />
-                  Submit request
+                  Send request
                 </Button>
-                <span className="text-xs font-semibold text-slate-500">No backend is required for this demo form.</span>
               </div>
             </>
           )}
@@ -217,7 +215,7 @@ export function ContactPage() {
               </div>
               <div className="flex gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-cyan-300" />
-                hello@climatekavach.in
+                peeyushkjha.12@gmail.com
               </div>
               <div className="flex gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-cyan-300" />
