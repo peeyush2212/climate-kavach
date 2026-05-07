@@ -153,8 +153,9 @@ export function NikeSponsoredAd({ placement = "rectangle", className }: NikeSpon
           <p className={cn("mt-2 font-semibold leading-5 text-slate-600", isBanner ? "hidden text-xs sm:block" : isMini ? "hidden" : "text-sm")}>
             Responsive road running comfort with a fast, everyday feel.
           </p>
-          <div className={cn("mt-3 inline-flex rounded-full bg-slate-950 font-black uppercase tracking-[0.08em] text-white transition group-hover:bg-orange-500", isMini ? "px-3 py-1.5 text-[10px]" : "px-4 py-2 text-xs")}>
-            Shop now
+          <div className={cn("mt-3 inline-flex items-center gap-1 font-semibold text-blue-700 underline-offset-2 group-hover:underline", isMini ? "text-[10px]" : "text-xs")}>
+            Visit site
+            <span aria-hidden="true">&gt;</span>
           </div>
         </div>
 

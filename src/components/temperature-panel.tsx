@@ -11,6 +11,38 @@ function findYear(rows: SimulationRow[], year: number) {
   return rows.find((row) => row.year === year) ?? rows[rows.length - 1];
 }
 
+function lowerIsBetterReadiness(current: number, baseline: number) {
+  if (!Number.isFinite(current) || !Number.isFinite(baseline)) return 0;
+  if (current <= 0) return 100;
+  if (baseline <= 0) return 0;
+  return clamp(100 * (1 - current / (baseline * 1.02)), 0, 100);
+}
+
+function percentageReadiness(value: number, ceiling = 100) {
+  if (!Number.isFinite(value)) return 0;
+  return clamp(100 * (value / ceiling), 0, 100);
+}
+
+function netZeroReadinessScore(current2070: SimulationRow, baseline2070: SimulationRow) {
+  const ghgProgress = lowerIsBetterReadiness(current2070.net_ghg_mtco2e, baseline2070.net_ghg_mtco2e);
+  const co2Progress = lowerIsBetterReadiness(current2070.net_emissions_mtco2, baseline2070.net_emissions_mtco2);
+  const cleanEnergyProgress = percentageReadiness(current2070.clean_energy_share_pct);
+  const efficiencyProgress = lowerIsBetterReadiness(current2070.energy_intensity, baseline2070.energy_intensity);
+  const airProgress = clamp(100 - current2070.pm25_exposed_pct, 0, 100);
+  const forestProgress = percentageReadiness(current2070.forest_pct, 60);
+
+  return clamp(
+    ghgProgress * 0.62 +
+      co2Progress * 0.14 +
+      cleanEnergyProgress * 0.10 +
+      efficiencyProgress * 0.07 +
+      airProgress * 0.04 +
+      forestProgress * 0.03,
+    0,
+    100
+  );
+}
+
 export function TemperaturePanel({ compact = false }: { compact?: boolean }) {
   const sim = useClimateKavachStore((s) => s.sim);
   const baselineSim = useClimateKavachStore((s) => s.baselineSim);
@@ -18,16 +50,13 @@ export function TemperaturePanel({ compact = false }: { compact?: boolean }) {
     if (!sim || !baselineSim) return null;
     const current2070 = findYear(sim.rows, 2070);
     const baseline2070 = findYear(baselineSim.rows, 2070);
-    const baselineNet2070 = Math.max(1, baseline2070.net_emissions_mtco2);
-    const netZeroScore = current2070.net_emissions_mtco2 <= 0
-      ? 100
-      : clamp(100 * (1 - current2070.net_emissions_mtco2 / baselineNet2070), 0, 100);
+    const netZeroScore = netZeroReadinessScore(current2070, baseline2070);
 
     return {
       c: summarize2050(sim),
       b: summarize2050(baselineSim),
       netZeroScore,
-      netCo22070: current2070.net_emissions_mtco2,
+      netGhg2070: current2070.net_ghg_mtco2e,
     };
   }, [sim, baselineSim]);
 
@@ -79,7 +108,9 @@ export function TemperaturePanel({ compact = false }: { compact?: boolean }) {
               <Target className="h-4 w-4 text-emerald-300" />
               2070 net-zero score
             </span>
-            <span className="text-cyan-100">{formatNumber(values.netZeroScore, { maximumFractionDigits: 0 })}/100</span>
+            <span className="text-cyan-100">
+              {formatNumber(values.netZeroScore, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/100
+            </span>
           </div>
           <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-800">
             <div
@@ -90,7 +121,7 @@ export function TemperaturePanel({ compact = false }: { compact?: boolean }) {
           {!compact && (
             <div className="mt-2 flex items-center gap-2 text-xs font-bold text-slate-500">
               <Zap className="h-4 w-4 text-cyan-300" />
-              {formatNumber(values.netCo22070, { maximumFractionDigits: 1 })} MtCO2 net in 2070
+              {formatNumber(values.netGhg2070, { maximumFractionDigits: 1 })} MtCO2e net GHG in 2070
             </div>
           )}
         </div>
