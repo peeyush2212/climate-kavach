@@ -10,6 +10,7 @@ import {
   CloudRain,
   Database,
   Gauge,
+  Lock,
   Menu,
   RadioTower,
   ReceiptText,
@@ -35,6 +36,7 @@ const otherNavItems = [
   { href: "/sensor-kavach", label: "Sensors", icon: RadioTower },
   { href: "/data-kavach", label: "Data Packs", icon: Database },
   { href: "/premium", label: "Premium", icon: Sparkles },
+  { href: "/payments", label: "Payments", icon: Lock },
 ];
 
 export function SiteHeader() {

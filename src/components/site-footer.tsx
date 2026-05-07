@@ -13,6 +13,7 @@ const platformLinks = [
 const businessLinks = [
   { href: "/pricing", label: "Pricing" },
   { href: "/premium", label: "Premium Data" },
+  { href: "/payments", label: "Payments" },
   { href: "/contact", label: "Request Demo" },
   { href: "/contact", label: "Contact" },
 ];
