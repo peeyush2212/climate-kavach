@@ -38,26 +38,26 @@ export function TemperaturePanel({ compact = false }: { compact?: boolean }) {
   return (
     <div
       className={`relative h-full overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950/70 shadow-[0_0_70px_rgba(34,211,238,.12)] backdrop-blur-xl ${
-        compact ? "min-h-[180px] p-4" : "min-h-[330px] p-5"
+        compact ? "min-h-[260px] p-3" : "min-h-[330px] p-5"
       }`}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(34,211,238,.24),transparent_13rem),radial-gradient(circle_at_80%_70%,rgba(168,85,247,.20),transparent_18rem)]" />
       <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
         <div
           className={`${
-            compact ? "mb-2" : "mb-3"
-          } flex items-center gap-2 rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-xs font-black uppercase tracking-[0.2em] text-cyan-200`}
+            compact ? "mb-2 px-2.5 py-1 text-[10px]" : "mb-3 px-3 py-1 text-xs"
+          } flex items-center gap-2 rounded-full border border-cyan-300/25 bg-cyan-300/10 font-black uppercase tracking-[0.2em] text-cyan-200`}
         >
           <Thermometer className="h-3.5 w-3.5" /> 2100 signal
         </div>
 
         <div
           className={`font-black leading-none text-cyan-300 drop-shadow-[0_0_24px_rgba(34,211,238,.55)] ${
-            compact ? "text-[2.7rem] md:text-[3.15rem]" : "text-[4.5rem] md:text-[5.4rem]"
+            compact ? "text-[2.35rem] md:text-[2.65rem]" : "text-[4.5rem] md:text-[5.4rem]"
           }`}
         >
           +{formatNumber(values.c.temperature2100, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          <span className={`${compact ? "text-xl" : "text-3xl"} ml-1 align-super tracking-normal`}>&deg;C</span>
+          <span className={`${compact ? "text-lg" : "text-3xl"} ml-1 align-super tracking-normal`}>&deg;C</span>
         </div>
 
         <div className={`${compact ? "mt-2 w-28" : "mt-3 w-36"} h-px bg-cyan-300/35`} />
@@ -65,15 +65,15 @@ export function TemperaturePanel({ compact = false }: { compact?: boolean }) {
           {sign}{formatNumber(Math.abs(delta), { minimumFractionDigits: 3, maximumFractionDigits: 3 })}&deg;C vs baseline
         </div>
 
-        <div className={`${compact ? "mt-2 text-xs" : "mt-4 text-sm"} max-w-[250px] font-black leading-5 text-slate-100`}>
+        <div className={`${compact ? "mt-2 text-[11px]" : "mt-4 text-sm"} max-w-[250px] font-black leading-5 text-slate-100`}>
           Global-equivalent temperature analog by 2100
         </div>
-        <div className={`${compact ? "mt-2" : "mt-3"} max-w-[270px] text-xs leading-5 text-slate-500`}>
+        <div className={`${compact ? "mt-1.5" : "mt-3"} max-w-[270px] text-xs leading-5 text-slate-500`}>
           India-only: {formatNumber(values.c.indiaTempContribution2100, { minimumFractionDigits: 4, maximumFractionDigits: 4 })}&deg;C.
           PPM: {formatNumber(values.c.ppmContribution2100, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}.
         </div>
 
-        <div className={`${compact ? "mt-3" : "mt-5"} w-full max-w-[280px] rounded-xl border border-cyan-300/15 bg-slate-950/55 p-3`}>
+        <div className={`${compact ? "mt-2.5 p-2.5" : "mt-5 p-3"} w-full max-w-[280px] rounded-xl border border-cyan-300/15 bg-slate-950/55`}>
           <div className="flex items-center justify-between gap-3 text-xs font-black text-slate-300">
             <span className="flex items-center gap-2">
               <Target className="h-4 w-4 text-emerald-300" />

@@ -29,7 +29,7 @@ export function EmissionsChart({ compact = false }: { compact?: boolean }) {
         : { text: "Greenhouse Gas Net Emissions", left: 0, top: 0, textStyle: { color: chartColors.text, fontSize: 14, fontWeight: 800 } },
       tooltip: axisTooltip("GtCO2e/yr", 2),
       legend: { ...(baseOption.legend as object), top: 0, right: 0, data: ["Baseline", "Current Scenario"] },
-      grid: { ...(baseOption.grid as object), top: compact ? 42 : 74, bottom: compact ? 22 : 48 },
+      grid: { ...(baseOption.grid as object), top: compact ? 34 : 74, bottom: compact ? 18 : 48, left: compact ? 42 : 48, right: compact ? 12 : 16 },
       xAxis: { ...(baseOption.xAxis as object), type: "category", data: years, boundaryGap: false },
       yAxis: { ...(baseOption.yAxis as object), type: "value", name: compact ? "" : "Gt CO2 equivalent/year" },
       dataZoom: compact ? [{ type: "inside", startValue: years[startIndex], endValue: years[endIndex], zoomOnMouseWheel: "ctrl" }] : dataZoom(years[startIndex], years[endIndex]),
@@ -52,5 +52,5 @@ export function EmissionsChart({ compact = false }: { compact?: boolean }) {
     },
   }), [sim, setZoom]);
 
-  return <EChart option={option} style={{ height: compact ? 255 : 315 }} onEvents={onEvents} />;
+  return <EChart option={option} style={{ height: compact ? 218 : 315 }} onEvents={onEvents} />;
 }

@@ -43,7 +43,7 @@ export function EnergySourcesChart({ compact = false }: { compact?: boolean }) {
       color: seriesConfig.map((s) => s.color),
       tooltip: axisTooltip("EJ/yr", 1),
       legend: { ...(baseOption.legend as object), top: compact ? 0 : 38, right: 0, data: seriesConfig.map((s) => s.name) },
-      grid: { ...(baseOption.grid as object), top: compact ? 42 : 84, bottom: compact ? 22 : 48 },
+      grid: { ...(baseOption.grid as object), top: compact ? 34 : 84, bottom: compact ? 18 : 48, left: compact ? 42 : 48, right: compact ? 12 : 16 },
       xAxis: { ...(baseOption.xAxis as object), type: "category", data: years, boundaryGap: false },
       yAxis: { ...(baseOption.yAxis as object), type: "value", name: compact ? "" : "Exajoules/year" },
       dataZoom: compact ? [{ type: "inside", startValue: startYear, endValue: endYear, zoomOnMouseWheel: "ctrl" }] : dataZoom(startYear, endYear),
@@ -72,5 +72,5 @@ export function EnergySourcesChart({ compact = false }: { compact?: boolean }) {
     },
   }), [sim, setZoom]);
 
-  return <EChart option={option} style={{ height: compact ? 255 : 330 }} onEvents={onEvents} />;
+  return <EChart option={option} style={{ height: compact ? 218 : 330 }} onEvents={onEvents} />;
 }

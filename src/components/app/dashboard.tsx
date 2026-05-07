@@ -15,7 +15,7 @@ import { Slider } from "@/components/ui/slider";
 import { encodeScenario } from "@/lib/scenarioCodec";
 import { toCsv } from "@/lib/simulator";
 import { useClimateKavachStore } from "@/lib/store";
-import { leverGroups, leverSpecs, type LeverSpec } from "@/lib/uiConfig";
+import { leverSpecs, type LeverGroup, type LeverSpec } from "@/lib/uiConfig";
 import { downloadText, formatNumber } from "@/lib/utils";
 
 function isActionSlider(l: LeverSpec) {
@@ -36,6 +36,13 @@ function formatLeverValue(l: LeverSpec, v: number) {
   if (String(l.key).includes("pct") || String(l.key).includes("2050")) return `${v.toFixed(0)}%`;
   return formatNumber(v);
 }
+
+const leverColumns: LeverGroup[][] = [
+  ["Energy Supply"],
+  ["Transport", "Buildings & Industry", "Growth"],
+  ["Carbon Dioxide Removal", "Other Sources of Greenhouse Gases", "Land Use"],
+  ["India Specific"],
+];
 
 function CompactScenarioBar() {
   const scenario = useClimateKavachStore((s) => s.scenario);
@@ -63,7 +70,7 @@ function CompactScenarioBar() {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2 rounded-xl border border-cyan-300/20 bg-slate-950/60 p-2">
+    <div className="flex flex-wrap items-center gap-1.5 rounded-lg border border-cyan-300/20 bg-slate-950/60 p-1.5">
       <Button variant="outline" size="sm" onClick={resetScenario}>
         <RotateCcw className="h-4 w-4" />
         Reset
@@ -95,12 +102,12 @@ function CompactScenarioBar() {
           Unlock
         </Button>
       )}
-      <div className="flex min-w-[230px] flex-1 items-center gap-2">
+      <div className="flex min-w-[220px] flex-1 items-center gap-1.5">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Scenario name"
-          className="h-9 min-w-0 flex-1 rounded-md border border-cyan-300/15 bg-slate-950/70 px-3 text-sm text-slate-100 placeholder:text-slate-500"
+          className="h-8 min-w-0 flex-1 rounded-md border border-cyan-300/15 bg-slate-950/70 px-3 text-xs text-slate-100 placeholder:text-slate-500"
         />
         <Button size="sm" onClick={() => { saveScenario(name); setName(""); }}>
           <Save className="h-4 w-4" />
@@ -111,9 +118,51 @@ function CompactScenarioBar() {
   );
 }
 
-function CompactLeversPanel() {
+function LeverGroupCard({ group }: { group: LeverGroup }) {
   const scenario = useClimateKavachStore((s) => s.scenario);
   const setScenario = useClimateKavachStore((s) => s.setScenario);
+
+  if (!scenario) return null;
+
+  const specs = leverSpecs.filter((l) => l.group === group);
+
+  return (
+    <section className="overflow-hidden rounded-lg border border-cyan-300/20 bg-slate-950/60">
+      <div className="border-b border-cyan-300/15 bg-slate-300/15 px-2 py-1 text-center text-xs font-black text-cyan-50">
+        {group}
+      </div>
+      <div className="grid gap-x-3 gap-y-1.5 p-2 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
+        {specs.map((spec) => {
+          const v = scenario[spec.key];
+          return (
+            <div key={spec.key} className="min-w-0">
+              <div className="flex items-center justify-between gap-2">
+                <label className="truncate text-xs font-bold text-slate-100" htmlFor={`lever-${spec.key}`}>
+                  {spec.title}
+                </label>
+                <span className="shrink-0 text-[10px] font-black text-slate-400">{formatLeverValue(spec, v)}</span>
+              </div>
+              <Slider
+                id={`lever-${spec.key}`}
+                value={[v]}
+                min={spec.min}
+                max={spec.max}
+                step={spec.step}
+                onValueChange={(val) => setScenario({ [spec.key]: val[0] } as any)}
+                aria-label={spec.title}
+                className="mt-0.5"
+                compact
+              />
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function CompactLeversPanel() {
+  const scenario = useClimateKavachStore((s) => s.scenario);
 
   if (!scenario) return <div className="text-sm text-slate-400">Loading levers...</div>;
 
@@ -121,47 +170,19 @@ function CompactLeversPanel() {
     <section className="space-y-2" aria-labelledby="simulation-levers">
       <div className="flex items-center gap-2">
         <SlidersHorizontal className="h-4 w-4 text-cyan-300" />
-        <h2 id="simulation-levers" className="text-sm font-black uppercase tracking-[0.16em] text-cyan-100">
+        <h2 id="simulation-levers" className="text-xs font-black uppercase tracking-[0.22em] text-cyan-100">
           Simulation levers
         </h2>
       </div>
-      <div className="grid gap-2 xl:grid-cols-3">
-        {leverGroups.map((group) => {
-          const specs = leverSpecs.filter((l) => l.group === group);
-          return (
-            <section key={group} className="rounded-lg border border-cyan-300/20 bg-slate-950/60">
-              <div className="border-b border-cyan-300/15 bg-slate-300/15 px-3 py-1.5 text-center text-sm font-black text-cyan-50">
-                {group}
-              </div>
-              <div className="grid gap-x-3 gap-y-2 p-3 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
-                {specs.map((spec) => {
-                  const v = scenario[spec.key];
-                  return (
-                    <div key={spec.key} className="min-w-0">
-                      <div className="flex items-center justify-between gap-3">
-                        <label className="truncate text-sm font-bold text-slate-100" htmlFor={`lever-${spec.key}`}>
-                          {spec.title}
-                        </label>
-                        <span className="shrink-0 text-[11px] font-black text-slate-400">{formatLeverValue(spec, v)}</span>
-                      </div>
-                      <Slider
-                        id={`lever-${spec.key}`}
-                        value={[v]}
-                        min={spec.min}
-                        max={spec.max}
-                        step={spec.step}
-                        onValueChange={(val) => setScenario({ [spec.key]: val[0] } as any)}
-                        aria-label={spec.title}
-                        className="mt-1"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-          );
-        })}
-        <NikeSponsoredAd placement="rectangle" className="min-h-[330px]" />
+      <div className="grid gap-2 xl:grid-cols-4 2xl:grid-cols-[1.25fr_1.05fr_1.05fr_1.2fr]">
+        {leverColumns.map((groups, columnIndex) => (
+          <div key={groups.join("-")} className="grid content-start gap-2">
+            {groups.map((group) => (
+              <LeverGroupCard key={group} group={group} />
+            ))}
+            {(columnIndex === 2 || columnIndex === 3) && <NikeSponsoredAd placement="mini" />}
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -169,12 +190,12 @@ function CompactLeversPanel() {
 
 function ChartFrame({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
   return (
-    <Card className="overflow-hidden border-cyan-300/20 bg-slate-950/60">
-      <div className="border-b border-cyan-300/15 bg-slate-300/15 px-4 py-2">
-        <h2 className="text-lg font-black leading-tight text-cyan-50">{title}</h2>
+    <Card className="self-start overflow-hidden border-cyan-300/20 bg-slate-950/60">
+      <div className="border-b border-cyan-300/15 bg-slate-300/15 px-3 py-1.5">
+        <h2 className="text-base font-black leading-tight text-cyan-50">{title}</h2>
         <div className="text-xs font-bold text-slate-400">{subtitle}</div>
       </div>
-      <CardContent className="p-3">{children}</CardContent>
+      <CardContent className="p-2">{children}</CardContent>
     </Card>
   );
 }
@@ -187,10 +208,10 @@ export function Dashboard() {
   }
 
   return (
-    <div className="space-y-3">
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-cyan-300/20 bg-slate-950/60 px-3 py-2">
+    <div className="relative left-1/2 w-[calc(100vw-1.5rem)] max-w-[1880px] -translate-x-1/2 space-y-2 text-[12px]">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-cyan-300/20 bg-slate-950/60 px-3 py-1.5">
         <div>
-          <h1 className="text-xl font-black tracking-[-0.04em] text-cyan-50">Climate Kavach Policy Simulator</h1>
+          <h1 className="text-lg font-black tracking-[-0.04em] text-cyan-50">Climate Kavach Policy Simulator</h1>
           <p className="text-xs font-semibold text-slate-400">
             India pathway model | Base {inputs.meta.baseYear} | Horizon {inputs.meta.endYear}
           </p>
@@ -198,17 +219,14 @@ export function Dashboard() {
         <CompactScenarioBar />
       </div>
 
-      <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_340px]">
+      <div className="grid items-start gap-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_270px] 2xl:grid-cols-[minmax(0,1.12fr)_minmax(0,1.12fr)_280px]">
         <ChartFrame title="Primary Energy by Source" subtitle="India pathway, exajoules/year">
           <EnergySourcesChart compact />
         </ChartFrame>
         <ChartFrame title="Greenhouse Gas Net Emissions" subtitle="Gt CO2 equivalent/year">
           <EmissionsChart compact />
         </ChartFrame>
-        <div className="grid gap-3">
-          <TemperaturePanel compact />
-          <NikeSponsoredAd placement="banner" />
-        </div>
+        <TemperaturePanel compact />
       </div>
 
       <CompactLeversPanel />
