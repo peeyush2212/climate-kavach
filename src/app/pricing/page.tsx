@@ -1,5 +1,6 @@
-import { Building2, Database, Gauge, ShieldCheck, Sparkles } from "lucide-react";
+import { Building2, Database, Gauge, ShieldCheck } from "lucide-react";
 import { ActionLink } from "@/components/marketing/action-link";
+import { PricingGmailCapture } from "@/components/marketing/pricing-gmail-capture";
 
 const plans = [
   {
@@ -91,7 +92,7 @@ export default function PricingPage() {
       </section>
 
       <section className="rounded-2xl border border-fuchsia-300/20 bg-fuchsia-300/10 p-6">
-        <div className="grid gap-5 lg:grid-cols-[1fr_280px] lg:items-center">
+        <div className="grid gap-5 lg:grid-cols-[1fr_380px] lg:items-center">
           <div>
             <div className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.18em] text-fuchsia-200">
               <Database className="h-4 w-4" />
@@ -103,10 +104,7 @@ export default function PricingPage() {
               system is created for Data Kavach.
             </p>
           </div>
-          <ActionLink href="/premium" className="w-full">
-            <Sparkles className="h-4 w-4" />
-            Unlock Premium Data
-          </ActionLink>
+          <PricingGmailCapture />
         </div>
       </section>
 

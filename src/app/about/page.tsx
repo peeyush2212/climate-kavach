@@ -27,7 +27,7 @@ const goals = [
   "Reduce losses from extreme weather",
 ];
 
-const founders = ["Peeyush Kumar Jha", "Arya Rajhans"];
+const founders = ["Peeyush Kumar Jha"];
 
 export default function AboutPage() {
   return (

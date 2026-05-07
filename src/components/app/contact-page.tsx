@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2, Mail, MapPin, Phone, Send } from "lucide-react";
+import { CheckCircle2, CreditCard, Mail, MapPin, Send, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -210,16 +210,20 @@ export function ContactPage() {
             <h2 className="text-lg font-black text-cyan-50">Contact</h2>
             <div className="mt-4 space-y-3 text-sm font-semibold text-slate-300">
               <div className="flex gap-3">
+                <UserRound className="h-4 w-4 shrink-0 text-cyan-300" />
+                <span>Full name: Peeyush Kumar Jha</span>
+              </div>
+              <div className="flex gap-3">
                 <MapPin className="h-4 w-4 shrink-0 text-cyan-300" />
-                India
+                <span>Location: India</span>
+              </div>
+              <div className="flex gap-3">
+                <CreditCard className="h-4 w-4 shrink-0 text-cyan-300" />
+                <span>UPI: peeyush2212@okhdfcbank</span>
               </div>
               <div className="flex gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-cyan-300" />
-                peeyushkjha.12@gmail.com
-              </div>
-              <div className="flex gap-3">
-                <Phone className="h-4 w-4 shrink-0 text-cyan-300" />
-                Request a callback
+                <span>Email: peeyushkjha.12@gmail.com</span>
               </div>
             </div>
           </div>

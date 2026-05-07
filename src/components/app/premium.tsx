@@ -13,8 +13,12 @@ export function PremiumPage() {
   const refreshPremiumStatus = useClimateKavachStore((s) => s.refreshPremiumStatus);
   const searchParams = useSearchParams();
   const canceled = searchParams.get("canceled") === "1";
+  const deliveryEmail = searchParams.get("deliveryEmail") || "";
 
   React.useEffect(() => { void refreshPremiumStatus(); }, [refreshPremiumStatus]);
+  React.useEffect(() => {
+    if (deliveryEmail && !premium) openPaywall();
+  }, [deliveryEmail, openPaywall, premium]);
 
   return (
     <div className="space-y-6">
@@ -24,7 +28,7 @@ export function PremiumPage() {
           <div className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.20em] text-cyan-300"><Sparkles className="h-4 w-4" /> Premium</div>
           <h1 className="mt-3 text-3xl font-black tracking-tight text-cyan-50">Premium data and scenario packs</h1>
           <p className="mt-3 max-w-3xl text-sm font-semibold leading-6 text-slate-400">
-            Sample data is always free. The premium pack is locked behind a verified Stripe checkout and a secure server-side cookie.
+            Sample data is always free. The premium pack is locked behind a verified Stripe checkout and a secure server-side cookie. Data and materials are emailed after payment.
           </p>
         </div>
       </section>
@@ -52,7 +56,7 @@ export function PremiumPage() {
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="flex items-center gap-2 text-lg font-black text-cyan-50"><Lock className="h-5 w-5 text-fuchsia-300" /> Premium Data Pack</div>
-              <p className="mt-2 text-sm leading-6 text-slate-400">Full scenario templates, additional peer benchmarks, and premium coefficient notes.</p>
+              <p className="mt-2 text-sm leading-6 text-slate-400">Full scenario templates, additional peer benchmarks, and premium coefficient notes delivered to your Gmail after payment.</p>
             </div>
             <Badge variant={premium ? "success" : "warn"}>{premium ? "Unlocked" : "Rs 500 locked"}</Badge>
           </div>

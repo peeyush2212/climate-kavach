@@ -5,6 +5,7 @@ import { Copy, Download, Lock, RotateCcw, Save, SlidersHorizontal } from "lucide
 import { EnergySourcesChart } from "@/components/charts/EnergySourcesChart";
 import { EmissionsChart } from "@/components/charts/EmissionsChart";
 import { CompareEmissionsChart } from "@/components/charts/CompareEmissionsChart";
+import { NikeSponsoredAd } from "@/components/ads/nike-sponsored-ad";
 import { KpiCards } from "@/components/kpi-cards";
 import { ScenarioControls } from "@/components/scenario-controls";
 import { TemperaturePanel } from "@/components/temperature-panel";
@@ -160,6 +161,7 @@ function CompactLeversPanel() {
             </section>
           );
         })}
+        <NikeSponsoredAd placement="rectangle" className="min-h-[330px]" />
       </div>
     </section>
   );
@@ -196,14 +198,17 @@ export function Dashboard() {
         <CompactScenarioBar />
       </div>
 
-      <div className="grid gap-3 xl:grid-cols-[1fr_1fr_300px]">
+      <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_340px]">
         <ChartFrame title="Primary Energy by Source" subtitle="India pathway, exajoules/year">
           <EnergySourcesChart compact />
         </ChartFrame>
         <ChartFrame title="Greenhouse Gas Net Emissions" subtitle="Gt CO2 equivalent/year">
           <EmissionsChart compact />
         </ChartFrame>
-        <TemperaturePanel compact />
+        <div className="grid gap-3">
+          <TemperaturePanel compact />
+          <NikeSponsoredAd placement="banner" />
+        </div>
       </div>
 
       <CompactLeversPanel />

@@ -52,6 +52,7 @@ export function SiteFooter() {
         <div>
           <div className="text-sm font-black uppercase tracking-[0.16em] text-cyan-200">Contact</div>
           <div className="mt-3 space-y-2 text-sm font-semibold text-slate-400">
+            <div>Full name: Peeyush Kumar Jha</div>
             <div>Location: India</div>
             <div>UPI: peeyush2212@okhdfcbank</div>
             <div>Email: peeyushkjha.12@gmail.com</div>
