@@ -26,6 +26,13 @@ export function EnergySourcesChart({ compact = false }: { compact?: boolean }) {
     const years = sim.rows.map((r) => r.year);
     const startYear = zoom?.startYear ?? years[0];
     const endYear = zoom?.endYear ?? years[years.length - 1];
+    const startIndex = Math.max(0, years.indexOf(startYear));
+    const endIndex = Math.max(startIndex, years.indexOf(endYear));
+    const totals = sim.rows.slice(startIndex, endIndex + 1).map((row) =>
+      seriesConfig.reduce((sum, cfg) => sum + Number((row as any)[cfg.field] ?? 0), 0)
+    );
+    const visibleMax = Math.max(...totals, 1);
+    const yMax = Math.ceil(visibleMax * 1.04);
     const baseOption = baseChartOption();
 
     return {
@@ -45,7 +52,14 @@ export function EnergySourcesChart({ compact = false }: { compact?: boolean }) {
       legend: { ...(baseOption.legend as object), top: compact ? 0 : 38, right: 0, data: seriesConfig.map((s) => s.name) },
       grid: { ...(baseOption.grid as object), top: compact ? 34 : 84, bottom: compact ? 18 : 48, left: compact ? 42 : 48, right: compact ? 12 : 16 },
       xAxis: { ...(baseOption.xAxis as object), type: "category", data: years, boundaryGap: false },
-      yAxis: { ...(baseOption.yAxis as object), type: "value", name: compact ? "" : "Exajoules/year" },
+      yAxis: {
+        ...(baseOption.yAxis as object),
+        type: "value",
+        name: compact ? "" : "Exajoules/year",
+        min: 0,
+        max: yMax,
+        splitNumber: 4,
+      },
       dataZoom: compact ? [{ type: "inside", startValue: startYear, endValue: endYear, zoomOnMouseWheel: "ctrl" }] : dataZoom(startYear, endYear),
       series: seriesConfig.map((cfg) => ({
         name: cfg.name,

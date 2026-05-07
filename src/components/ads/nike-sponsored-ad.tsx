@@ -42,7 +42,8 @@ export function NikeSponsoredAd({ placement = "rectangle", className }: NikeSpon
 
   function openAd() {
     if (feedbackOpen || closed) return;
-    window.location.href = NIKE_URL;
+    const adWindow = window.open(NIKE_URL, "_blank", "noopener,noreferrer");
+    if (adWindow) adWindow.opener = null;
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLElement>) {

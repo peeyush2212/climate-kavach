@@ -20,6 +20,13 @@ export function EmissionsChart({ compact = false }: { compact?: boolean }) {
     const zero = sim.rows.map(() => 0);
     const startIndex = zoom ? Math.max(0, years.indexOf(zoom.startYear)) : 0;
     const endIndex = zoom ? Math.max(0, years.indexOf(zoom.endYear)) : years.length - 1;
+    const visibleValues = [...base.slice(startIndex, endIndex + 1), ...cur.slice(startIndex, endIndex + 1)];
+    const visibleMin = Math.min(...visibleValues);
+    const visibleMax = Math.max(...visibleValues);
+    const span = Math.max(0.1, visibleMax - visibleMin);
+    const padding = Math.max(span * 0.18, Math.max(Math.abs(visibleMax), 1) * 0.025, 0.08);
+    const yMin = visibleMin > 0 ? Math.max(0, visibleMin - padding) : visibleMin - padding;
+    const yMax = visibleMax + padding;
     const baseOption = baseChartOption();
 
     return {
@@ -31,7 +38,15 @@ export function EmissionsChart({ compact = false }: { compact?: boolean }) {
       legend: { ...(baseOption.legend as object), top: 0, right: 0, data: ["Baseline", "Current Scenario"] },
       grid: { ...(baseOption.grid as object), top: compact ? 34 : 74, bottom: compact ? 18 : 48, left: compact ? 42 : 48, right: compact ? 12 : 16 },
       xAxis: { ...(baseOption.xAxis as object), type: "category", data: years, boundaryGap: false },
-      yAxis: { ...(baseOption.yAxis as object), type: "value", name: compact ? "" : "Gt CO2 equivalent/year" },
+      yAxis: {
+        ...(baseOption.yAxis as object),
+        type: "value",
+        name: compact ? "" : "Gt CO2 equivalent/year",
+        scale: true,
+        min: Number(yMin.toFixed(2)),
+        max: Number(yMax.toFixed(2)),
+        splitNumber: 4,
+      },
       dataZoom: compact ? [{ type: "inside", startValue: years[startIndex], endValue: years[endIndex], zoomOnMouseWheel: "ctrl" }] : dataZoom(years[startIndex], years[endIndex]),
       series: [
         { name: "Zero", type: "line", data: zero, showSymbol: false, lineStyle: { color: "rgba(226,232,240,.4)", width: 1 }, tooltip: { show: false } },
